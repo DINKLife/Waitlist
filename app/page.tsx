@@ -1,9 +1,5 @@
-import HeroSection from "@/components/sections/HeroSection";
+import HeroSection from "@/components/features/waitlist/HeroSection";
 
 export default function Home() {
-  return (
-    <>
-      <HeroSection />
-    </>
-  );
+  return <HeroSection />;
 }

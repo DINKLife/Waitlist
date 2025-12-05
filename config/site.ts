@@ -60,10 +60,11 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    twitter: "https://twitter.com/dinklife",
+    instagram: "https://instagram.com/dinklife",
+    linkedin: "https://linkedin.com/company/dinklife",
+    facebook: "https://facebook.com/dinklife",
+    discord: "https://discord.gg/dinklife",
+    youtube: "https://youtube.com/@dinklife",
   },
 };

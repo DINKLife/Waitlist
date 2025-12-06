@@ -1,0 +1,125 @@
+"use client";
+
+import { useRef, useState, useEffect } from "react";
+import { HeroSlide } from "./HeroSlide";
+import { HERO_SLIDES } from "@/constants/hero-slides";
+
+export default function HeroCarousel() {
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const handleScroll = () => {
+      const scrollPosition = carousel.scrollLeft;
+      const slideWidth = carousel.offsetWidth;
+      const newSlide = Math.round(scrollPosition / slideWidth);
+      setCurrentSlide(newSlide);
+    };
+
+    // Enable horizontal scrolling with mouse wheel
+    const handleWheel = (e: WheelEvent) => {
+      // Only handle vertical wheel events
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        
+        // Convert vertical scroll to horizontal scroll
+        carousel.scrollBy({
+          left: e.deltaY,
+          behavior: "auto",
+        });
+      }
+    };
+
+    carousel.addEventListener("scroll", handleScroll, { passive: true });
+    carousel.addEventListener("wheel", handleWheel, { passive: false });
+    
+    return () => {
+      carousel.removeEventListener("scroll", handleScroll);
+      carousel.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
+    const scrollToSlide = (index: number) => {
+        const carousel = carouselRef.current;
+        if (!carousel) return;
+
+        const slideWidth = carousel.offsetWidth;
+        carousel.scrollTo({
+            left: slideWidth * index,
+            behavior: "smooth",
+        });
+    };
+
+    return (
+        <div className="relative w-full h-screen">
+            {/* Carousel Container */}
+            <div
+                ref={carouselRef}
+                className="flex overflow-x-auto h-full snap-x snap-mandatory scrollbar-hide"
+                style={{
+                    scrollSnapType: "x mandatory",
+                    scrollBehavior: "smooth",
+                    WebkitOverflowScrolling: "touch",
+                }}
+            >
+                {HERO_SLIDES.map((slide, index) => (
+                    <HeroSlide
+                        key={slide.id}
+                        slide={slide}
+                        index={index}
+                        isActive={currentSlide === index}
+                    />
+                ))}
+            </div>
+
+            {/* Navigation Dots */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-3">
+                {HERO_SLIDES.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => scrollToSlide(index)}
+                        className="group relative"
+                        aria-label={`Go to slide ${index + 1}`}
+                    >
+                        <div
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${currentSlide === index
+                                    ? "bg-white scale-125"
+                                    : "bg-white/40 hover:bg-white/60"
+                                }`}
+                        />
+                        {currentSlide === index && (
+                            <div
+                                className="absolute inset-0 rounded-full bg-white/30 animate-ping"
+                                style={{ animationDuration: "2s" }}
+                            />
+                        )}
+                    </button>
+                ))}
+            </div>
+
+            {/* Scroll Indicator (First Slide Only) */}
+            {currentSlide === 0 && (
+                <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+                    <div className="flex flex-col items-center gap-2">
+                        <p className="text-white/80 text-sm font-medium">Scroll to explore</p>
+                        <svg
+                            className="w-6 h-6 text-white/80"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+

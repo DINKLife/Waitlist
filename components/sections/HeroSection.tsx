@@ -24,18 +24,6 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Logo at top center */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={170}
-          height={170}
-          className="object-contain"
-          priority
-        />
-      </div>
-
       {/* Content container at bottom */}
       <div className="relative z-10 flex flex-col flex-1 justify-end pb-12 md:pb-16">
         <div className="px-6 md:px-12 lg:px-20">

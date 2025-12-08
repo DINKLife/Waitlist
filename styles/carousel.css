@@ -33,7 +33,7 @@
 
 /* Enhanced smooth scrolling for touch devices */
 @media (hover: none) and (pointer: coarse) {
-  .snap-x {
+  .snap-x { 
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }

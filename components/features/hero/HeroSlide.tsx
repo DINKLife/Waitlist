@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { WaitlistForm } from "../waitlist/WaitlistForm";
 import type { HeroSlideData } from "@/types/hero";
 
 interface HeroSlideProps {
@@ -24,13 +23,25 @@ export function HeroSlide({ slide, index, isActive }: HeroSlideProps) {
                     priority={index === 0}
                     quality={90}
                 />
-                {/* Overlay for better text readability */}
+                {/* Background hover overlay */}
                 <div
                     className="absolute inset-0"
                     style={{
-                        background: slide.overlay || "linear-gradient(180deg, rgba(0, 40, 96, 0.4) 0%, rgba(0, 40, 96, 0.7) 100%)",
+                        backgroundImage: "url('/images/backgrounds/background-hover.png')",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
                     }}
                 />
+                {/* Optional custom overlay for better text readability */}
+                {slide.overlay && (
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background: slide.overlay,
+                        }}
+                    />
+                )}
             </div>
             {/* Content */}
             <div
@@ -40,16 +51,7 @@ export function HeroSlide({ slide, index, isActive }: HeroSlideProps) {
                 <div className="px-6 md:px-12 lg:px-20">
                     <div className="mx-auto w-full max-w-7xl">
                         {/* Slide Content */}
-                        <div className="mb-8">
-                            {slide.content}
-                        </div>
-
-                        {/* Waitlist Form (First Slide Only) */}
-                        {index === 0 && (
-                            <div className="flex w-full justify-center">
-                                <WaitlistForm />
-                            </div>
-                        )}
+                        {slide.content}
                     </div>
                 </div>
             </div>

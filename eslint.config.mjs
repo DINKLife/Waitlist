@@ -1,4 +1,3 @@
-import { defineConfig, globalIgnores } from "eslint/config";
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import react from "eslint-plugin-react";
 import unusedImports from "eslint-plugin-unused-imports";
@@ -21,29 +20,32 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
-export default defineConfig([globalIgnores([
-    ".now/*",
-    "**/*.css",
-    "**/.changeset",
-    "**/dist",
-    "esm/*",
-    "public/*",
-    "tests/*",
-    "scripts/*",
-    "**/*.config.js",
-    "**/.DS_Store",
-    "**/node_modules",
-    "**/coverage",
-    "**/.next",
-    "**/build",
-    "!**/.commitlintrc.cjs",
-    "!**/.lintstagedrc.cjs",
-    "!**/jest.config.js",
-    "!**/plopfile.js",
-    "!**/react-shim.js",
-    "!**/tsup.config.ts",
-]), {
-    extends: fixupConfigRules(compat.extends(
+export default [
+    {
+        ignores: [
+            ".now/*",
+            "**/*.css",
+            "**/.changeset",
+            "**/dist",
+            "esm/*",
+            "public/*",
+            "tests/*",
+            "scripts/*",
+            "**/*.config.js",
+            "**/.DS_Store",
+            "**/node_modules",
+            "**/coverage",
+            "**/.next",
+            "**/build",
+            "!**/.commitlintrc.cjs",
+            "!**/.lintstagedrc.cjs",
+            "!**/jest.config.js",
+            "!**/plopfile.js",
+            "!**/react-shim.js",
+            "!**/tsup.config.ts",
+        ],
+    },
+    ...fixupConfigRules(compat.extends(
         "plugin:react/recommended",
         "plugin:prettier/recommended",
         "plugin:react-hooks/recommended",
@@ -139,13 +141,14 @@ export default defineConfig([globalIgnores([
             prev: "*",
             next: "return",
         }, {
-            blankLine: "always",
-            prev: ["const", "let", "var"],
-            next: "*",
-        }, {
-            blankLine: "any",
-            prev: ["const", "let", "var"],
-            next: ["const", "let", "var"],
-        }],
+                blankLine: "always",
+                prev: ["const", "let", "var"],
+                next: "*",
+            }, {
+                blankLine: "any",
+                prev: ["const", "let", "var"],
+                next: ["const", "let", "var"],
+            }],
     },
-}]);
+},
+];

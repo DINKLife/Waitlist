@@ -30,7 +30,7 @@ export function errorResponse(
             success: false,
             error,
             message,
-            ...(details && { details }),
+            ...(details && typeof details === "object" && details !== null ? { details } : {}),
         },
         { status }
     );

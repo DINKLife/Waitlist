@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { SOCIAL_LINKS } from "@/constants/social-links";
 import { BRAND_COLORS, BRAND_COLORS_RGBA } from "@/constants/brand";
+import { WaitlistModal } from "@/components/features/waitlist/WaitlistModal";
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -90,9 +92,9 @@ export default function Navbar() {
                     </div>
 
                     {/* Right Side - CTA */}
-                    <Link
-                        href="#join"
-                        className="px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 shrink-0 border-2"
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 shrink-0 border-2 cursor-pointer"
                         style={{
                             backgroundColor: BRAND_COLORS.primary.main,
                             color: BRAND_COLORS.white,
@@ -109,9 +111,12 @@ export default function Navbar() {
                     >
                         <span className="hidden sm:inline">Join Waitlist</span>
                         <span className="sm:hidden">Join</span>
-                    </Link>
+                    </button>
                 </div>
             </div>
+            
+            {/* Waitlist Modal */}
+            <WaitlistModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </nav>
     );
 }

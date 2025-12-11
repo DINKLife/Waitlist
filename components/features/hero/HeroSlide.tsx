@@ -45,7 +45,9 @@ export function HeroSlide({ slide, index, isActive }: HeroSlideProps) {
             </div>
             {/* Content */}
             <div
-                className={`relative z-10 flex flex-col h-full justify-end pb-32 transition-opacity duration-500 ${isActive ? "opacity-100" : "opacity-90"
+                className={`relative z-10 flex flex-col h-full justify-end pb-32 transition-all duration-700 ease-out ${isActive
+                    ? "opacity-100 translate-y-0 scale-100"
+                    : "opacity-60 translate-y-4 scale-[0.98]"
                     }`}
             >
                 <div className="px-6 md:px-12 lg:px-20">

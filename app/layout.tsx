@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { Providers } from "./providers";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import { FloatingWaitlistButton } from "@/components/features/waitlist/FloatingWaitlistButton";
 
 import { siteConfig } from "@/config/site";
@@ -47,6 +48,7 @@ export default function RootLayout({
             <main className="flex-grow w-full">
               {children}
             </main>
+            <Footer />
             <FloatingWaitlistButton />
           </div>
         </Providers>

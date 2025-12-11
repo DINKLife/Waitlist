@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { ScrollAnimation } from "@/components/ui/ScrollAnimation";
 
 const benefits = [
   {
@@ -32,25 +35,25 @@ export default function WhatYouGetSection() {
     <section className="w-full bg-white py-16 md:py-24 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2
-            className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-4"
-            style={{ color: "#002860" }}
-          >
-            WHAT YOU GET WHEN YOU JOIN NOW
-          </h2>
-          <p className="text-lg md:text-xl" style={{ color: "#002860" }}>
-            Joining the early access list gives you:
-          </p>
-        </div>
+        <ScrollAnimation direction="fadeUp" delay={0} duration={0.8}>
+          <div className="text-center mb-12 md:mb-16">
+            <h2
+              className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-4"
+              style={{ color: "#002860" }}
+            >
+              WHAT YOU GET WHEN YOU JOIN NOW
+            </h2>
+            <p className="text-lg md:text-xl" style={{ color: "#002860" }}>
+              Joining the early access list gives you:
+            </p>
+          </div>
+        </ScrollAnimation>
 
         {/* Benefits Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {benefits.map((benefit) => (
-            <div
-              key={benefit.id}
-              className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
-            >
+          {benefits.map((benefit, index) => (
+            <ScrollAnimation key={benefit.id} direction="fadeUp" delay={index * 100} duration={0.8}>
+              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
               {/* Icon */}
               <div className="mb-6 flex justify-center">
                 <div
@@ -81,7 +84,8 @@ export default function WhatYouGetSection() {
               >
                 {benefit.description}
               </p>
-            </div>
+              </div>
+            </ScrollAnimation>
           ))}
         </div>
       </div>

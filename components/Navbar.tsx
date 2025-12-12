@@ -18,12 +18,12 @@ const socialLinks = [
   },
   {
     name: "Instagram",
-    href: "https://instagram.com/dinklife",
+    href: "https://instagram.com/dinklifeapp",
     icon: InstagramIcon,
   },
   {
     name: "LinkedIn",
-    href: "https://linkedin.com/company/dinklife",
+    href: "https://linkedin.com/company/dinklife-com",
     icon: LinkedInIcon,
   },
   {

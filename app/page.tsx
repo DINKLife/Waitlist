@@ -6,12 +6,12 @@ import FAQSection from "@/components/sections/FAQSection";
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-white">
       <HeroSection />
       {/* <WhyDinkLifeSection /> */}
       <WhatYouGetSection />
       <FounderMessageSection />
       <FAQSection />
-    </>
+    </div>
   );
 }

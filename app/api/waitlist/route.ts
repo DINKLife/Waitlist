@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { waitlistSchema } from "@/lib/validations/waitlist";
+import { sendWaitlistWelcomeEmail } from "@/lib/email/sendgrid";
+import { generateUniqueReferralCode, calculateReferralPoints } from "@/lib/utils/referral";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { firstName, lastName, email, country } = validationResult.data;
+    const { firstName, lastName, email, country, referralCode } = validationResult.data;
 
     // Check if email already exists
     const existingEntry = await prisma.waitlistEntry.findUnique({
@@ -35,6 +37,40 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate referral code if provided
+    let referredById: string | null = null;
+    if (referralCode) {
+      const referrer = await prisma.waitlistEntry.findUnique({
+        where: { referralCode: referralCode.toUpperCase().trim() },
+      });
+
+      if (!referrer) {
+        return NextResponse.json(
+          {
+            error: "Invalid referral code",
+            message: "The referral code you entered is not valid.",
+          },
+          { status: 400 }
+        );
+      }
+
+      // Prevent self-referral
+      if (referrer.email.toLowerCase() === email.toLowerCase()) {
+        return NextResponse.json(
+          {
+            error: "Invalid referral code",
+            message: "You cannot use your own referral code.",
+          },
+          { status: 400 }
+        );
+      }
+
+      referredById = referrer.id;
+    }
+
+    // Generate unique referral code for the new user
+    const newReferralCode = await generateUniqueReferralCode();
+
     // Create waitlist entry
     const entry = await prisma.waitlistEntry.create({
       data: {
@@ -42,16 +78,61 @@ export async function POST(request: NextRequest) {
         lastName,
         email,
         country,
+        referralCode: newReferralCode,
+        referredById,
       },
     });
+
+    // Update referrer's stats if referral code was used
+    if (referredById) {
+      const referrer = await prisma.waitlistEntry.findUnique({
+        where: { id: referredById },
+      });
+
+      if (referrer) {
+        const newReferralCount = referrer.referralCount + 1;
+        const newPoints = calculateReferralPoints(newReferralCount);
+
+        await prisma.waitlistEntry.update({
+          where: { id: referredById },
+          data: {
+            referralCount: newReferralCount,
+            points: newPoints,
+          },
+        });
+      }
+    }
+
+    // Generate referral link
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
+                    (request.headers.get("origin") || "http://localhost:3000");
+    const referralLink = `${baseUrl}?ref=${newReferralCode}`;
+
+    // Send welcome email (don't fail if email sending fails)
+    try {
+      await sendWaitlistWelcomeEmail({
+        firstName,
+        lastName,
+        email,
+        country,
+        referralCode: newReferralCode,
+        referralLink,
+      });
+    } catch (emailError) {
+      // Log error but don't fail the request
+      console.error("Failed to send welcome email:", emailError);
+      // Continue with success response even if email fails
+    }
 
     return NextResponse.json(
       {
         success: true,
-        message: "Successfully joined the waitlist!",
+        message: "Successfully joined the waitlist! Check your email for a welcome message.",
         data: {
           id: entry.id,
           email: entry.email,
+          referralCode: newReferralCode,
+          referralLink,
         },
       },
       { status: 201 }
@@ -94,6 +175,10 @@ export async function GET() {
         lastName: true,
         email: true,
         country: true,
+        referralCode: true,
+        referralCount: true,
+        points: true,
+        referredById: true,
         createdAt: true,
       },
     });

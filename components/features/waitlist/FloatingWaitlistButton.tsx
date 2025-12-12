@@ -4,12 +4,22 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@heroui/button";
 import { WaitlistModal } from "./WaitlistModal";
 import { BRAND_COLORS } from "@/constants/brand";
+import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 
 export function FloatingWaitlistButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [shouldBounce, setShouldBounce] = useState(false);
   const [shouldPulse, setShouldPulse] = useState(false);
+  
+  // Hide button on welcome slide (slide 0)
+  let isWelcomeSlide = false;
+  try {
+    const carousel = useHeroCarousel();
+    isWelcomeSlide = carousel.currentSlide === 0;
+  } catch {
+    // Not in carousel context, show button (not on home page with carousel)
+  }
 
   useEffect(() => {
     // Show button after a short delay for smooth entrance
@@ -40,6 +50,11 @@ export function FloatingWaitlistButton() {
       return () => clearTimeout(timer);
     }
   }, [shouldBounce]);
+
+  // Don't render on welcome slide
+  if (isWelcomeSlide) {
+    return null;
+  }
 
   return (
     <>

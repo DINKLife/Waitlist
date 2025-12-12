@@ -23,6 +23,7 @@ interface FormData {
   lastName: string;
   email: string;
   country: string;
+  referralCode?: string;
 }
 
 const COUNTRIES = [
@@ -58,13 +59,24 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     lastName: "",
     email: "",
     country: "",
+    referralCode: "",
   });
   const [countrySearchValue, setCountrySearchValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isDetectingCountry, setIsDetectingCountry] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successData, setSuccessData] = useState<{
+    referralCode?: string;
+    referralLink?: string;
+  } | null>(null);
+  const [referralCodeValidation, setReferralCodeValidation] = useState<{
+    isValidating: boolean;
+    isValid: boolean | null;
+    referrerName?: string;
+  }>({ isValidating: false, isValid: null });
 
-  // Auto-detect country based on IP geolocation
+  // Auto-detect country and check for referral code in URL
   useEffect(() => {
     if (isOpen && !formData.country) {
       detectCountry();
@@ -72,6 +84,15 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     // Reset search value when modal opens
     if (isOpen && formData.country) {
       setCountrySearchValue(formData.country);
+    }
+    // Check for referral code in URL query params
+    if (isOpen) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const refCode = urlParams.get("ref");
+      if (refCode && !formData.referralCode) {
+        setFormData((prev) => ({ ...prev, referralCode: refCode.toUpperCase() }));
+        validateReferralCode(refCode);
+      }
     }
   }, [isOpen]);
 
@@ -83,8 +104,13 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
         lastName: "",
         email: "",
         country: "",
+        referralCode: "",
       });
       setCountrySearchValue("");
+      setError(null);
+      setIsSuccess(false);
+      setSuccessData(null);
+      setReferralCodeValidation({ isValidating: false, isValid: null });
     }
   }, [isOpen]);
 
@@ -134,26 +160,85 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    
+    // Validate referral code when it changes
+    if (field === "referralCode" && value.trim().length >= 4) {
+      validateReferralCode(value);
+    } else if (field === "referralCode" && value.trim().length === 0) {
+      setReferralCodeValidation({ isValidating: false, isValid: null });
+    }
+  };
+
+  const validateReferralCode = async (code: string) => {
+    if (!code || code.trim().length < 4) {
+      setReferralCodeValidation({ isValidating: false, isValid: null });
+      return;
+    }
+
+    setReferralCodeValidation({ isValidating: true, isValid: null });
+
+    try {
+      const response = await fetch(`/api/waitlist/validate-referral/${code.toUpperCase().trim()}`);
+      const data = await response.json();
+
+      if (data.valid) {
+        setReferralCodeValidation({
+          isValidating: false,
+          isValid: true,
+          referrerName: data.referrerName,
+        });
+      } else {
+        setReferralCodeValidation({
+          isValidating: false,
+          isValid: false,
+        });
+      }
+    } catch (error) {
+      console.error("Referral code validation error:", error);
+      setReferralCodeValidation({ isValidating: false, isValid: null });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    console.log("Submitted form data:", formData);
-    setIsSuccess(true);
+      const data = await response.json();
 
-    // Close modal after success message
-    setTimeout(() => {
-      setFormData({ firstName: "", lastName: "", email: "", country: "" });
-      setCountrySearchValue("");
+      if (!response.ok) {
+        throw new Error(data.error || data.message || "Failed to join waitlist");
+      }
+
+      setIsSuccess(true);
+      setSuccessData({
+        referralCode: data.data?.referralCode,
+        referralLink: data.data?.referralLink,
+      });
+
+      // Close modal after success message (longer timeout to show referral code)
+      setTimeout(() => {
+        setFormData({ firstName: "", lastName: "", email: "", country: "", referralCode: "" });
+        setCountrySearchValue("");
+        setIsSubmitting(false);
+        setIsSuccess(false);
+        setSuccessData(null);
+        onClose();
+      }, 8000);
+    } catch (err) {
+      console.error("Waitlist submission error:", err);
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setIsSubmitting(false);
-      setIsSuccess(false);
-      onClose();
-    }, 2000);
+    }
   };
 
   // Shared input styles
@@ -276,9 +361,39 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
           {/* Body */}
           <ModalBody className="py-6">
             {isSuccess ? (
-              <SuccessMessage />
+              <SuccessMessage 
+                email={formData.email} 
+                referralCode={successData?.referralCode}
+                referralLink={successData?.referralLink}
+              />
             ) : (
               <div className="space-y-4">
+                {/* Error Message */}
+                {error && (
+                  <div
+                    className="p-4 rounded-lg border-2"
+                    style={{
+                      backgroundColor: "rgba(239, 68, 68, 0.1)",
+                      borderColor: "rgba(239, 68, 68, 0.3)",
+                      color: "#FEE2E2",
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="w-5 h-5 flex-shrink-0"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="text-sm font-medium">{error}</p>
+                    </div>
+                  </div>
+                )}
                 {/* Name Fields */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <InputField
@@ -453,6 +568,82 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                   )}
                 </div>
 
+                {/* Referral Code Field */}
+                <div className="space-y-2">
+                  <label
+                    htmlFor="referralCode"
+                    className="text-sm font-medium"
+                    style={{ color: BRAND_COLORS.primary.light }}
+                  >
+                    Referral Code (Optional)
+                  </label>
+                  <div className="relative">
+                    <Input
+                      id="referralCode"
+                      type="text"
+                      placeholder="Enter a friend's referral code"
+                      value={formData.referralCode || ""}
+                      onChange={(e) => handleInputChange("referralCode", e.target.value.toUpperCase())}
+                      size="lg"
+                      startContent={<GiftIcon />}
+                      classNames={inputClassNames}
+                      style={{
+                        borderColor: BRAND_COLORS_RGBA.primaryLight[30],
+                      }}
+                    />
+                    {referralCodeValidation.isValidating && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <LoadingSpinner />
+                      </div>
+                    )}
+                    {referralCodeValidation.isValid === true && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <svg
+                          className="w-5 h-5 text-green-400"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    )}
+                    {referralCodeValidation.isValid === false && formData.referralCode && formData.referralCode.length >= 4 && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <svg
+                          className="w-5 h-5 text-red-400"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  {referralCodeValidation.isValid === true && referralCodeValidation.referrerName && (
+                    <p className="text-xs text-green-400 mt-1">
+                      ✓ Valid code from {referralCodeValidation.referrerName}
+                    </p>
+                  )}
+                  {referralCodeValidation.isValid === false && formData.referralCode && formData.referralCode.length >= 4 && (
+                    <p className="text-xs text-red-400 mt-1">
+                      Invalid referral code. Please check and try again.
+                    </p>
+                  )}
+                  {formData.referralCode && formData.referralCode.length > 0 && formData.referralCode.length < 4 && (
+                    <p className="text-xs text-white/50 mt-1">
+                      Referral codes are at least 4 characters
+                    </p>
+                  )}
+                </div>
+
                 {/* Bonus Section */}
                 <BonusSection />
               </div>
@@ -572,9 +763,29 @@ function InputField({
   );
 }
 
-function SuccessMessage() {
+function SuccessMessage({ 
+  email, 
+  referralCode, 
+  referralLink 
+}: { 
+  email?: string;
+  referralCode?: string;
+  referralLink?: string;
+}) {
+  const [copied, setCopied] = React.useState(false);
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center py-8">
+    <div className="flex flex-col items-center justify-center py-8 space-y-6">
       <div
         className="w-16 h-16 mb-4 rounded-full flex items-center justify-center"
         style={{ backgroundColor: BRAND_COLORS_RGBA.primaryLight[30] }}
@@ -592,13 +803,94 @@ function SuccessMessage() {
           <path d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <p className="text-xl font-semibold text-white">You're on the list!</p>
-      <p
-        className="text-sm mt-2 text-center"
-        style={{ color: BRAND_COLORS.primary.light }}
-      >
-        Check your email for confirmation and exclusive updates
-      </p>
+      <div className="text-center">
+        <p className="text-xl font-semibold text-white">You're on the list! 🎉</p>
+        <p
+          className="text-sm mt-2 text-center max-w-md"
+          style={{ color: BRAND_COLORS.primary.light }}
+        >
+          We've sent a welcome email to{" "}
+          {email && (
+            <span className="font-semibold text-white">{email}</span>
+          )}
+          {!email && "your email address"}. Check your inbox for exclusive updates and your welcome bonus!
+        </p>
+      </div>
+
+      {referralCode && (
+        <div
+          className="w-full max-w-md rounded-xl p-6 border-2 relative overflow-hidden backdrop-blur-sm"
+          style={{
+            background: `linear-gradient(135deg, ${BRAND_COLORS_RGBA.primaryLight[20]} 0%, ${BRAND_COLORS_RGBA.primary[30]} 100%)`,
+            borderColor: BRAND_COLORS_RGBA.primaryLight[50],
+          }}
+        >
+          <div className="text-center">
+            <h3
+              className="text-lg font-bold mb-3"
+              style={{ color: BRAND_COLORS.primary.light }}
+            >
+              🎁 Your Referral Code
+            </h3>
+            <div
+              className="bg-[#002860]/80 rounded-lg p-4 mb-4 border-2 border-dashed"
+              style={{ borderColor: BRAND_COLORS_RGBA.primaryLight[50] }}
+            >
+              <p className="text-xs mb-2" style={{ color: BRAND_COLORS.primary.light }}>
+                SHARE THIS CODE
+              </p>
+              <p
+                className="text-3xl font-bold tracking-widest font-mono"
+                style={{ color: BRAND_COLORS.primary.light }}
+              >
+                {referralCode}
+              </p>
+            </div>
+            <p className="text-sm mb-4" style={{ color: BRAND_COLORS.primary.light }}>
+              Share with friends and earn rewards for every person who joins!
+            </p>
+            {referralLink && (
+              <div className="space-y-2">
+                <Button
+                  onPress={() => copyToClipboard(referralLink)}
+                  className="w-full font-semibold"
+                  style={{
+                    background: `linear-gradient(135deg, ${BRAND_COLORS.primary.main} 0%, ${BRAND_COLORS.primary.light} 100%)`,
+                    color: BRAND_COLORS.primary.dark,
+                  }}
+                >
+                  {copied ? (
+                    <>
+                      <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      Copy Referral Link
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onPress={() => copyToClipboard(referralCode)}
+                  variant="flat"
+                  className="w-full font-semibold border-2"
+                  style={{
+                    borderColor: BRAND_COLORS_RGBA.primaryLight[50],
+                    color: BRAND_COLORS.primary.light,
+                  }}
+                >
+                  Copy Code Only
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -672,6 +964,23 @@ function GlobeIcon() {
       stroke="currentColor"
     >
       <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+function GiftIcon() {
+  return (
+    <svg
+      className="w-5 h-5"
+      style={{ color: BRAND_COLORS.primary.light }}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
     </svg>
   );
 }

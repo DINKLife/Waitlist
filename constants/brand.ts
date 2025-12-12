@@ -27,7 +27,9 @@ export const BRAND_COLORS_RGBA = {
   },
   primaryLight: {
     60: 'rgba(215, 231, 255, 0.6)',
+    50: 'rgba(215, 231, 255, 0.5)',
     30: 'rgba(215, 231, 255, 0.3)',
+    20: 'rgba(215, 231, 255, 0.2)',
     10: 'rgba(215, 231, 255, 0.1)',
   },
 } as const;

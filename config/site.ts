@@ -61,10 +61,10 @@ export const siteConfig = {
   ],
   links: {
     twitter: "https://twitter.com/dinklife",
-    instagram: "https://instagram.com/dinklife",
-    linkedin: "https://linkedin.com/company/dinklife",
-    facebook: "https://facebook.com/dinklife",
+    instagram: "https://instagram.com/dinklifeapp",
+    linkedin: "https://linkedin.com/company/dinklife-com",
+    facebook: "https://www.facebook.com/share/1DdXbPqRBh/?mibextid=wwXIfr",
     discord: "https://discord.gg/dinklife",
-    youtube: "https://youtube.com/@dinklife",
+    youtube: "https://youtube.com/@dinklife-app",
   },
 };

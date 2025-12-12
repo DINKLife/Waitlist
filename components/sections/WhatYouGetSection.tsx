@@ -49,41 +49,45 @@ export default function WhatYouGetSection() {
           </div>
         </ScrollAnimation>
 
-        {/* Benefits Grid */}
+        {/* Benefits Grid - Equal Height Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {benefits.map((benefit, index) => (
             <ScrollAnimation key={benefit.id} direction="fadeUp" delay={index * 100} duration={0.8}>
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
-              {/* Icon */}
-              <div className="mb-6 flex justify-center">
-                <div
-                  className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: "#D7E7FF" }}
-                >
-                  <div className="relative w-12 h-12 md:w-16 md:h-16">
-                    <Image
-                      src={benefit.icon}
-                      alt={benefit.title}
-                      fill
-                      className="object-contain"
-                    />
+              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 h-full flex flex-col">
+                {/* Icon - Dark Blue/Black Background */}
+                <div className="mb-6 flex justify-center flex-shrink-0">
+                  <div
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center shadow-lg"
+                    style={{
+                      background: "linear-gradient(135deg, #001a3d 0%, #002860 50%, #015EC2 100%)",
+                    }}
+                  >
+                    <div className="relative w-12 h-12 md:w-16 md:h-16">
+                      <Image
+                        src={benefit.icon}
+                        alt={benefit.title}
+                        fill
+                        className="object-contain brightness-0 invert"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Content */}
-              <h3
-                className="text-lg md:text-xl font-bold mb-3 text-center"
-                style={{ color: "#002860" }}
-              >
-                {benefit.title}
-              </h3>
-              <p
-                className="text-sm md:text-base text-center leading-relaxed"
-                style={{ color: "#002860" }}
-              >
-                {benefit.description}
-              </p>
+                {/* Content - Flex grow to fill space */}
+                <div className="flex flex-col flex-grow">
+                  <h3
+                    className="text-lg md:text-xl font-bold mb-3 text-center flex-shrink-0"
+                    style={{ color: "#002860" }}
+                  >
+                    {benefit.title}
+                  </h3>
+                  <p
+                    className="text-sm md:text-base text-center leading-relaxed flex-grow"
+                    style={{ color: "#002860" }}
+                  >
+                    {benefit.description}
+                  </p>
+                </div>
               </div>
             </ScrollAnimation>
           ))}

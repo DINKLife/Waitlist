@@ -22,6 +22,11 @@ export const waitlistSchema = z.object({
     .min(1, "Country is required")
     .max(100, "Country must be less than 100 characters")
     .trim(),
+  referralCode: z
+    .string()
+    .max(20, "Referral code must be less than 20 characters")
+    .trim()
+    .optional(),
 });
 
 export type WaitlistInput = z.infer<typeof waitlistSchema>;

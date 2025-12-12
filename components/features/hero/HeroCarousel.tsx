@@ -3,10 +3,12 @@
 import { useRef, useState, useEffect } from "react";
 import { HeroSlide } from "./HeroSlide";
 import { HERO_SLIDES } from "@/constants/hero-slides";
+import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 
 export default function HeroCarousel() {
     const carouselRef = useRef<HTMLDivElement>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const { setCurrentSlide: setContextSlide } = useHeroCarousel();
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -17,6 +19,7 @@ export default function HeroCarousel() {
       const slideWidth = carousel.offsetWidth;
       const newSlide = Math.round(scrollPosition / slideWidth);
       setCurrentSlide(newSlide);
+      setContextSlide(newSlide);
     };
 
     // Enable horizontal scrolling with mouse wheel
@@ -81,7 +84,7 @@ export default function HeroCarousel() {
     };
 
     return (
-        <div className="relative w-full h-screen">
+        <div className="relative w-full h-screen overflow-hidden">
             {/* Carousel Container */}
             <div
                 ref={carouselRef}

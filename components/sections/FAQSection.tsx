@@ -196,7 +196,7 @@ export default function FAQSection() {
                                 className="text-sm"
                                 style={{ color: BRAND_COLORS.primary.dark, opacity: 0.7 }}
                             >
-                                Reach out to us through our social links in the navbar above
+                                Reach out to us through our social links
                             </p>
                         </div>
                     </div>

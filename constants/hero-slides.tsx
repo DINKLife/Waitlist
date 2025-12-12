@@ -18,7 +18,7 @@ export const HERO_SLIDES: HeroSlideData[] = [
                 headline="YOUR BODY,"
                 headlineAccent="YOUR RULES"
                 title="AI-Powered Health Tracking"
-                subtitle="Designed for Your Lifestyle"
+                subtitle=""
                 features={[
                     {
                         icon: (
@@ -108,7 +108,7 @@ export const HERO_SLIDES: HeroSlideData[] = [
                 headline="FIND YOUR"
                 headlineAccent="PEOPLE"
                 title="Your Tribe Is Waiting"
-                subtitle="You're Not Alone in This Journey"
+                subtitle=""
                 features={[
                     {
                         icon: (
@@ -198,7 +198,7 @@ export const HERO_SLIDES: HeroSlideData[] = [
                 headline="BUILD WEALTH"
                 headlineAccent="RETIRE EARLY"
                 title="Smart Money Moves Together"
-                subtitle="Quality Care Without Breaking the Bank"
+                subtitle=""
                 features={[
                     {
                         icon: (

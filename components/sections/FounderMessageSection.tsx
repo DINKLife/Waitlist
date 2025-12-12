@@ -27,22 +27,6 @@ export default function FounderMessageSection() {
                         className="w-full min-h-screen flex flex-col items-center justify-center px-6 md:px-12 lg:px-16 py-16 md:py-24 relative overflow-hidden"
                         style={{ backgroundColor: "#015EC2" }}
                     >
-                        {/* Decorative quotation marks */}
-                        <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 opacity-30 z-0">
-                            <div
-                                className="text-white font-serif leading-none"
-                                style={{ fontSize: "clamp(80px, 15vw, 150px)" }}
-                            >
-                                "
-                            </div>
-                            <div
-                                className="text-white font-serif leading-none -mt-4 md:-mt-8"
-                                style={{ fontSize: "clamp(80px, 15vw, 150px)" }}
-                            >
-                                "
-                            </div>
-                        </div>
-
                         <div className="relative z-10 max-w-2xl w-full">
                             {/* Profile Icon */}
                             <div className="flex justify-center mb-8 md:mb-10">

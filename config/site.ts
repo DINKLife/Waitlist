@@ -1,8 +1,33 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "DINKLIFE",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "DINKLife - The Ultimate Platform for DINK Couples",
+  shortName: "DINKLife",
+  description: "Join DINKLife - the premier platform designed exclusively for DINK (Dual Income No Kids) couples. Discover tools, resources, and a community tailored for couples living the DINK lifestyle. Get early access, exclusive benefits, and founder pricing by joining our waitlist today.",
+  keywords: [
+    "DINK",
+    "DINK couples",
+    "Dual Income No Kids",
+    "DINK lifestyle",
+    "DINK community",
+    "childfree couples",
+    "DINKLife",
+    "couples without kids",
+    "DINK resources",
+    "DINK tools",
+    "DINK platform",
+    "DINK waitlist",
+    "DINK benefits",
+    "DINK lifestyle platform",
+    "DINK couples community",
+    "Timothy Brown",
+    "DINKLife platform",
+  ],
+  url: process.env.NEXT_PUBLIC_BASE_URL || "https://dinklife.com",
+  ogImage: "/images/og-image.png",
+  twitterHandle: "@dinklife",
+  author: "Timothy Brown",
+  creator: "DINKLife",
   navItems: [
     {
       label: "Home",

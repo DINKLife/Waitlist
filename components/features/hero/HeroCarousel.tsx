@@ -7,12 +7,15 @@ import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 
 export default function HeroCarousel() {
     const carouselRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const { setCurrentSlide: setContextSlide } = useHeroCarousel();
+    const totalSlides = HERO_SLIDES.length;
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    if (!carousel) return;
+    const container = containerRef.current;
+    if (!carousel || !container) return;
 
     const handleScroll = () => {
       const scrollPosition = carousel.scrollLeft;
@@ -22,10 +25,19 @@ export default function HeroCarousel() {
       setContextSlide(newSlide);
     };
 
-    // Enable horizontal scrolling with mouse wheel
+    // Enhanced wheel handler with viewport detection
     const handleWheel = (e: WheelEvent) => {
       // Only handle vertical wheel events
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        // Check if hero section is in viewport
+        const rect = container.getBoundingClientRect();
+        const isHeroInView = rect.top <= 0 && rect.bottom >= window.innerHeight;
+        
+        if (!isHeroInView) {
+          // Not in hero section, allow normal scroll
+          return;
+        }
+        
         const slideWidth = carousel.offsetWidth;
         const scrollLeft = carousel.scrollLeft;
         const scrollWidth = carousel.scrollWidth;
@@ -34,43 +46,51 @@ export default function HeroCarousel() {
         
         // Calculate current slide index
         const currentSlideIndex = Math.round(scrollLeft / slideWidth);
-        const totalSlides = HERO_SLIDES.length;
+        
+        // Precise boundary detection
+        const tolerance = 2;
+        const isAtStart = scrollLeft <= tolerance;
+        const isAtEnd = Math.abs((scrollLeft + slideWidth) - scrollWidth) <= tolerance;
         const isLastSlide = currentSlideIndex >= totalSlides - 1;
         const isFirstSlide = currentSlideIndex <= 0;
         
-        // Check if we're at the boundaries with tolerance
-        const isAtStart = scrollLeft <= 10; // 10px tolerance
-        const isAtEnd = scrollLeft + slideWidth >= scrollWidth - 10; // 10px tolerance
-        
-        // If scrolling down and at the last slide, allow normal page scroll
-        if (isScrollingDown && (isAtEnd || isLastSlide)) {
-          // Allow the page to scroll down to next section
+        // Allow vertical scroll only at exact boundaries
+        if ((isScrollingDown && isAtEnd && isLastSlide) || 
+            (isScrollingUp && isAtStart && isFirstSlide)) {
+          // Allow page scroll
           return;
         }
         
-        // If scrolling up and at the first slide, allow normal page scroll
-        if (isScrollingUp && (isAtStart || isFirstSlide)) {
-          // Allow the page to scroll up
-          return;
-        }
-        
-        // Otherwise, convert vertical scroll to horizontal scroll within carousel
+        // Prevent vertical scroll and convert to horizontal
         e.preventDefault();
-        carousel.scrollBy({
-          left: e.deltaY,
-          behavior: "auto",
-        });
+        e.stopPropagation();
+        
+        // Calculate target slide
+        let targetSlide: number;
+        if (isScrollingDown) {
+          targetSlide = Math.min(currentSlideIndex + 1, totalSlides - 1);
+        } else {
+          targetSlide = Math.max(currentSlideIndex - 1, 0);
+        }
+        
+        // Scroll to target slide
+        if (targetSlide !== currentSlideIndex) {
+          carousel.scrollTo({
+            left: targetSlide * slideWidth,
+            behavior: "smooth",
+          });
+        }
       }
     };
 
     carousel.addEventListener("scroll", handleScroll, { passive: true });
-    carousel.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener("wheel", handleWheel, { passive: false });
     
     return () => {
       carousel.removeEventListener("scroll", handleScroll);
-      carousel.removeEventListener("wheel", handleWheel);
+      container.removeEventListener("wheel", handleWheel);
     };
-  }, []);
+  }, [setContextSlide, totalSlides]);
 
     const scrollToSlide = (index: number) => {
         const carousel = carouselRef.current;
@@ -84,7 +104,7 @@ export default function HeroCarousel() {
     };
 
     return (
-        <div className="relative w-full h-screen overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-screen overflow-hidden">
             {/* Carousel Container */}
             <div
                 ref={carouselRef}

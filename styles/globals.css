@@ -54,9 +54,21 @@ body::-webkit-scrollbar {
   animation: pulse-scale 2s ease-in-out;
 }
 
-/* Smooth scroll behavior */
+/* Smooth scroll behavior with snap */
 html {
   scroll-behavior: smooth;
+}
+
+/* Page-level scroll snap for sections */
+.page-snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.page-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* Enhanced section transitions */

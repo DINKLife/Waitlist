@@ -45,7 +45,7 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <HeroCarouselProvider>
-            <div className="relative flex flex-col min-h-screen">
+            <div className="relative flex flex-col min-h-screen overflow-x-hidden">
               <Navbar />
               <main className="flex-grow w-full">
                 {children}

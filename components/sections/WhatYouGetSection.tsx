@@ -32,11 +32,11 @@ const benefits = [
 
 export default function WhatYouGetSection() {
   return (
-    <section className="w-full bg-white py-16 md:py-24 px-6 md:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full bg-white py-12 md:py-16 px-6 md:px-12 lg:px-20 min-h-screen flex items-center">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Header */}
         <ScrollAnimation direction="fadeUp" delay={0} duration={0.8}>
-          <div className="text-center mb-12 md:mb-16">
+          <div className="text-center mb-8 md:mb-12">
             <h2
               className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight mb-4"
               style={{ color: "#002860" }}

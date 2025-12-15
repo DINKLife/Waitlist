@@ -147,7 +147,7 @@ export const HERO_SLIDES: HeroSlideData[] = [
     {
         id: "travel",
         title: "Travel",
-        backgroundImage: "/images/backgrounds/Travel.png",
+        backgroundImage: "/images/backgrounds/Travel.jpg",
         content: (
             <ModernFeatureSlide
                 headline="WANDER TOGETHER"

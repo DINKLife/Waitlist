@@ -1,10 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { waitlistSchema } from "@/lib/validations/waitlist";
 import { sendWaitlistWelcomeEmail } from "@/lib/email/sendgrid";
 import { generateUniqueReferralCode, calculateReferralPoints } from "@/lib/utils/referral";
+import {
+  successResponse,
+  errorResponse,
+  validationErrorResponse,
+  conflictResponse,
+} from "@/lib/api/response-handlers";
+import { logger } from "@/lib/utils/logger";
+import type { NextResponse } from "next/server";
+import type { ApiSuccessResponse, ApiErrorResponse } from "@/types/api";
 
-export async function POST(request: NextRequest) {
+/**
+ * POST /api/waitlist
+ * Submit a new waitlist entry
+ * @param request - NextRequest with waitlist entry data
+ * @returns NextResponse with success or error
+ */
+export async function POST(request: NextRequest): Promise<NextResponse<ApiSuccessResponse | ApiErrorResponse>> {
   try {
     const body = await request.json();
 
@@ -12,13 +27,7 @@ export async function POST(request: NextRequest) {
     const validationResult = waitlistSchema.safeParse(body);
 
     if (!validationResult.success) {
-      return NextResponse.json(
-        {
-          error: "Validation failed",
-          details: validationResult.error.errors,
-        },
-        { status: 400 }
-      );
+      return validationErrorResponse(validationResult.error.errors);
     }
 
     const { firstName, lastName, email, country, referralCode } = validationResult.data;
@@ -29,12 +38,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingEntry) {
-      return NextResponse.json(
-        {
-          error: "This email is already registered in the waitlist",
-        },
-        { status: 409 }
-      );
+      return conflictResponse("This email is already registered in the waitlist");
     }
 
     // Validate referral code if provided
@@ -45,23 +49,19 @@ export async function POST(request: NextRequest) {
       });
 
       if (!referrer) {
-        return NextResponse.json(
-          {
-            error: "Invalid referral code",
-            message: "The referral code you entered is not valid.",
-          },
-          { status: 400 }
+        return errorResponse(
+          "Invalid referral code",
+          "The referral code you entered is not valid.",
+          400
         );
       }
 
       // Prevent self-referral
       if (referrer.email.toLowerCase() === email.toLowerCase()) {
-        return NextResponse.json(
-          {
-            error: "Invalid referral code",
-            message: "You cannot use your own referral code.",
-          },
-          { status: 400 }
+        return errorResponse(
+          "Invalid referral code",
+          "You cannot use your own referral code.",
+          400
         );
       }
 
@@ -120,50 +120,44 @@ export async function POST(request: NextRequest) {
       });
     } catch (emailError) {
       // Log error but don't fail the request
-      console.error("Failed to send welcome email:", emailError);
+      logger.error("Failed to send welcome email", emailError);
       // Continue with success response even if email fails
     }
 
-    return NextResponse.json(
+    return successResponse(
       {
-        success: true,
-        message: "Successfully joined the waitlist! Check your email for a welcome message.",
-        data: {
-          id: entry.id,
-          email: entry.email,
-          referralCode: newReferralCode,
-          referralLink,
-        },
+        id: entry.id,
+        email: entry.email,
+        referralCode: newReferralCode,
+        referralLink,
       },
-      { status: 201 }
+      "Successfully joined the waitlist! Check your email for a welcome message.",
+      201
     );
   } catch (error) {
-    console.error("Waitlist API error:", error);
+    logger.error("Waitlist API error", error);
 
     // Handle Prisma errors
     if (error instanceof Error) {
       if (error.message.includes("Unique constraint")) {
-        return NextResponse.json(
-          {
-            error: "This email is already registered in the waitlist",
-          },
-          { status: 409 }
-        );
+        return conflictResponse("This email is already registered in the waitlist");
       }
     }
 
-    return NextResponse.json(
-      {
-        error: "Internal server error",
-        message: "Something went wrong. Please try again later.",
-      },
-      { status: 500 }
+    return errorResponse(
+      "Internal server error",
+      "Something went wrong. Please try again later.",
+      500
     );
   }
 }
 
-// Optional: GET endpoint to retrieve waitlist entries (for admin purposes)
-export async function GET() {
+/**
+ * GET /api/waitlist
+ * Retrieve waitlist entries (for admin purposes)
+ * @returns NextResponse with waitlist entries
+ */
+export async function GET(): Promise<NextResponse<ApiSuccessResponse | ApiErrorResponse>> {
   try {
     const entries = await prisma.waitlistEntry.findMany({
       orderBy: {
@@ -183,23 +177,17 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(
-      {
-        success: true,
-        count: entries.length,
-        data: entries,
-      },
-      { status: 200 }
+    return successResponse(
+      { entries, count: entries.length },
+      "Waitlist entries retrieved successfully"
     );
   } catch (error) {
-    console.error("Waitlist GET API error:", error);
+    logger.error("Waitlist GET API error", error);
 
-    return NextResponse.json(
-      {
-        error: "Internal server error",
-        message: "Failed to retrieve waitlist entries",
-      },
-      { status: 500 }
+    return errorResponse(
+      "Internal server error",
+      "Failed to retrieve waitlist entries",
+      500
     );
   }
 }

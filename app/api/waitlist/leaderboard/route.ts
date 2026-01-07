@@ -1,19 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
+import { successResponse, errorResponse, validationErrorResponse } from "@/lib/api/response-handlers";
+import { logger } from "@/lib/utils/logger";
+import type { NextResponse } from "next/server";
+import type { ApiSuccessResponse, ApiErrorResponse } from "@/types/api";
+import type { LeaderboardEntry } from "@/types/waitlist";
 
-export async function GET(request: NextRequest) {
+/**
+ * GET /api/waitlist/leaderboard
+ * Get the referral leaderboard
+ * @param request - NextRequest with optional limit query parameter
+ * @returns NextResponse with leaderboard data
+ */
+export async function GET(request: NextRequest): Promise<NextResponse<ApiSuccessResponse<{ leaderboard: LeaderboardEntry[]; count: number }> | ApiErrorResponse>> {
   try {
     const searchParams = request.nextUrl.searchParams;
     const limit = parseInt(searchParams.get("limit") || "10", 10);
 
     if (limit < 1 || limit > 100) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Limit must be between 1 and 100",
-        },
-        { status: 400 }
-      );
+      return validationErrorResponse({
+        limit: "Limit must be between 1 and 100",
+      });
     }
 
     const leaderboard = await prisma.waitlistEntry.findMany({
@@ -57,24 +64,17 @@ export async function GET(request: NextRequest) {
       createdAt: entry.createdAt,
     }));
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: leaderboardWithRank,
-        count: leaderboardWithRank.length,
-      },
-      { status: 200 }
+    return successResponse(
+      { leaderboard: leaderboardWithRank, count: leaderboardWithRank.length },
+      "Leaderboard retrieved successfully"
     );
   } catch (error) {
-    console.error("Leaderboard error:", error);
+    logger.error("Leaderboard error", error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Internal server error",
-        message: "Failed to retrieve leaderboard",
-      },
-      { status: 500 }
+    return errorResponse(
+      "Internal server error",
+      "Failed to retrieve leaderboard",
+      500
     );
   }
 }

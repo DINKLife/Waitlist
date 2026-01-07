@@ -1,28 +1,27 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { successResponse, errorResponse } from "@/lib/api/response-handlers";
+import { logger } from "@/lib/utils/logger";
+import type { NextResponse } from "next/server";
+import type { ApiSuccessResponse, ApiErrorResponse } from "@/types/api";
 
-export async function GET() {
+/**
+ * GET /api/waitlist/count
+ * Get the total count of waitlist entries
+ * @returns NextResponse with count
+ */
+export async function GET(): Promise<NextResponse<ApiSuccessResponse<{ count: number }> | ApiErrorResponse>> {
     try {
         const count = await prisma.waitlistEntry.count();
 
-        return NextResponse.json(
-            {
-                success: true,
-                count,
-            },
-            { status: 200 }
-        );
+        return successResponse({ count }, "Waitlist count retrieved successfully");
     } catch (error) {
-        console.error("Waitlist count API error:", error);
+        logger.error("Waitlist count API error", error);
 
-        return NextResponse.json(
-            {
-                success: false,
-                error: "Internal server error",
-                message: "Failed to retrieve waitlist count",
-                count: 0,
-            },
-            { status: 500 }
+        return errorResponse(
+            "Internal server error",
+            "Failed to retrieve waitlist count",
+            500,
+            { count: 0 }
         );
     }
 }

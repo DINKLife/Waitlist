@@ -1,22 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
+import { successResponse, errorResponse, validationErrorResponse, notFoundResponse } from "@/lib/api/response-handlers";
+import { logger } from "@/lib/utils/logger";
+import type { NextResponse } from "next/server";
+import type { ApiSuccessResponse, ApiErrorResponse } from "@/types/api";
+import type { ReferralStats } from "@/types/waitlist";
 
+/**
+ * GET /api/waitlist/referrals/[code]
+ * Get referral statistics for a specific referral code
+ * @param request - NextRequest
+ * @param params - Route parameters containing the referral code
+ * @returns NextResponse with referral statistics
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ code: string }> }
-) {
+): Promise<NextResponse<ApiSuccessResponse<ReferralStats> | ApiErrorResponse>> {
   try {
     const { code: codeParam } = await params;
     const code = codeParam?.toUpperCase().trim();
 
     if (!code || code.length < 4) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Invalid referral code format",
-        },
-        { status: 400 }
-      );
+      return validationErrorResponse({
+        code: "Invalid referral code format",
+      });
     }
 
     const referrer = await prisma.waitlistEntry.findUnique({
@@ -33,13 +41,7 @@ export async function GET(
     });
 
     if (!referrer) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Referral code not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("Referral code");
     }
 
     // Get all referrals
@@ -58,34 +60,28 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(
+    return successResponse(
       {
-        success: true,
-        data: {
-          referralCode: referrer.referralCode,
-          owner: {
-            firstName: referrer.firstName,
-            lastName: referrer.lastName,
-          },
-          stats: {
-            totalReferrals: referrer.referralCount,
-            points: referrer.points,
-          },
-          referrals,
+        referralCode: referrer.referralCode,
+        owner: {
+          firstName: referrer.firstName,
+          lastName: referrer.lastName,
         },
+        stats: {
+          totalReferrals: referrer.referralCount,
+          points: referrer.points,
+        },
+        referrals,
       },
-      { status: 200 }
+      "Referral statistics retrieved successfully"
     );
   } catch (error) {
-    console.error("Get referrals error:", error);
+    logger.error("Get referrals error", error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Internal server error",
-        message: "Failed to retrieve referral statistics",
-      },
-      { status: 500 }
+    return errorResponse(
+      "Internal server error",
+      "Failed to retrieve referral statistics",
+      500
     );
   }
 }

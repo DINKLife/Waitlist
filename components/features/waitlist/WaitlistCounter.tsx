@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BRAND_COLORS, BRAND_COLORS_RGBA } from "@/constants/brand";
+import { logger } from "@/lib/utils/logger";
 
 interface WaitlistCounterProps {
     className?: string;
@@ -65,7 +66,7 @@ export function WaitlistCounter({
                 setCount(data.count);
             }
         } catch (error) {
-            console.error("Failed to fetch waitlist count:", error);
+            logger.error("Failed to fetch waitlist count", error);
         } finally {
             setIsLoading(false);
         }

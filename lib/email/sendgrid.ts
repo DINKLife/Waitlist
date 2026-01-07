@@ -1,4 +1,5 @@
 import sgMail, { MailDataRequired } from "@sendgrid/mail";
+import { logger } from "@/lib/utils/logger";
 
 // Initialize SendGrid
 if (process.env.SENDGRID_API_KEY) {
@@ -19,7 +20,7 @@ export interface WaitlistEmailData {
  */
 export async function sendWaitlistWelcomeEmail(data: WaitlistEmailData): Promise<void> {
   if (!process.env.SENDGRID_API_KEY) {
-    console.warn("SENDGRID_API_KEY not set, skipping email send");
+    logger.warn("SENDGRID_API_KEY not set, skipping email send");
     return;
   }
 
@@ -43,12 +44,12 @@ export async function sendWaitlistWelcomeEmail(data: WaitlistEmailData): Promise
 
   try {
     await sgMail.send(msg);
-    console.log(`Welcome email sent successfully to ${data.email}`);
+    logger.info(`Welcome email sent successfully to ${data.email}`);
   } catch (error) {
-    console.error("Error sending welcome email:", error);
+    logger.error("Error sending welcome email", error);
     // Don't throw - we don't want email failures to break the waitlist signup
     if (error instanceof Error) {
-      console.error("SendGrid error details:", error.message);
+      logger.error("SendGrid error details", error, { message: error.message });
     }
   }
 }

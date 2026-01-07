@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { errorResponse, notFoundResponse } from "@/lib/api/response-handlers";
+import { logger } from "@/lib/utils/logger";
 
 export async function GET(
   request: NextRequest,
@@ -53,7 +55,7 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    console.error("Referral validation error:", error);
+    logger.error("Referral validation error", error);
 
     return NextResponse.json(
       {

@@ -3,7 +3,7 @@
  * Handles smooth scrolling between page sections with snap behavior
  */
 
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef, RefObject, MutableRefObject } from "react";
 
 type SectionName = "hero" | "whatYouGet" | "founder" | "faq";
 
@@ -65,7 +65,7 @@ function getSectionPositions(
 function snapToSection(
   targetSection: SectionName,
   positions: SectionPositions,
-  isScrollingRef: RefObject<boolean>
+  isScrollingRef: MutableRefObject<boolean>
 ): void {
   if (isScrollingRef.current) return;
 
@@ -103,7 +103,7 @@ function snapToSection(
 function createWheelHandler(
   sectionRefs: SectionRefs,
   isAtLastSlide: boolean,
-  isScrollingRef: RefObject<boolean>
+  isScrollingRef: MutableRefObject<boolean>
 ): (e: WheelEvent) => void {
   return (e: WheelEvent) => {
     const { hero, whatYouGet, founder, faq } = sectionRefs;
@@ -300,7 +300,7 @@ function createWheelHandler(
 function createScrollHandler(
   sectionRefs: SectionRefs,
   isAtLastSlide: boolean,
-  isScrollingRef: RefObject<boolean>
+  isScrollingRef: MutableRefObject<boolean>
 ): () => void {
   return () => {
     if (isScrollingRef.current) return;

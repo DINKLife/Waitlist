@@ -1,6 +1,5 @@
 "use client";
 
-import { WaitlistCounter } from "@/components/features/waitlist/WaitlistCounter";
 import { Button } from "@heroui/button";
 import { BRAND_COLORS, WAITLIST_FORM_URL } from "@/constants/brand";
 
@@ -18,15 +17,6 @@ export function WelcomeSlide() {
                             STARTS HERE
                         </span>
                     </h1>
-                </div>
-
-                {/* Waitlist Counter - Social Proof - Single Row */}
-                <div className="flex justify-center items-center py-2 mb-4">
-                    <WaitlistCounter
-                        showLabel={true}
-                        animated={true}
-                        className="justify-center"
-                    />
                 </div>
 
                 {/* Primary CTA Button - Centered and Above Trust Badges */}

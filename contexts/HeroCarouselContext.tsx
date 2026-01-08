@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, ReactNode } from "react";
 
 interface HeroCarouselContextType {
   currentSlide: number;
@@ -10,7 +10,9 @@ interface HeroCarouselContextType {
 const HeroCarouselContext = createContext<HeroCarouselContextType | undefined>(undefined);
 
 export function HeroCarouselProvider({ children }: { children: ReactNode }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // Always return 0 since we only have one slide (welcome slide)
+  const currentSlide = 0;
+  const setCurrentSlide = () => {}; // No-op since there's only one slide
 
   return (
     <HeroCarouselContext.Provider value={{ currentSlide, setCurrentSlide }}>

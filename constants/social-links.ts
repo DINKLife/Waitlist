@@ -8,25 +8,25 @@ import {
 export const SOCIAL_LINKS = [
   {
     name: "LinkedIn",
-    href: "https://linkedin.com/company/dinklife-com",
+    href: "https://www.linkedin.com/company/dinklife-inc",
     icon: LinkedInIcon,
     ariaLabel: "Connect with us on LinkedIn",
   },
   {
     name: "Facebook",
-    href: "https://www.facebook.com/share/1DdXbPqRBh/?mibextid=wwXIfr",
+    href: "https://www.facebook.com/dinklifecom",
     icon: FacebookIcon,
     ariaLabel: "Follow us on Facebook",
   },
   {
     name: "Instagram",
-    href: "https://instagram.com/dinklifeapp",
+    href: "https://www.instagram.com/dinklifecom/?utm_source=ig_web_button_share_sheet",
     icon: InstagramIcon,
     ariaLabel: "Follow us on Instagram",
   },
   {
     name: "YouTube",
-    href: "https://youtube.com/@dinklife-app",
+    href: "https://www.youtube.com/@DINKLife-com",
     icon: YoutubeIcon,
     ariaLabel: "Subscribe to our YouTube channel",
   },

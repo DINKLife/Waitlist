@@ -11,10 +11,10 @@ export default function FounderMessageSection() {
                 <ScrollAnimation direction="fadeRight" delay={0} duration={1}>
                     <div className="relative w-full h-screen lg:h-auto lg:min-h-screen bg-gradient-to-br from-gray-200 to-gray-300">
                         <Image
-                            src="/images/founder/founder-photo copy.png"
+                            src="/images/founder/founder-photo.png"
                             alt="Smiling person outdoors, representing the DINKLife founder message"
                             fill
-                            className="object-cover"
+                            className="object-contain"
                             priority
                         />
                     </div>

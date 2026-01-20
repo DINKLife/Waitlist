@@ -12,11 +12,10 @@ export default function FounderMessageSection() {
                     <div className="relative w-full h-screen lg:h-auto lg:min-h-screen bg-gradient-to-br from-gray-200 to-gray-300">
                         <Image
                             src="/images/founder/founder-photo.png"
-                            alt="Timothy Brown, Founder of DINKLife"
+                            alt="Smiling person outdoors, representing the DINKLife founder message"
                             fill
                             className="object-cover"
                             priority
-                            unoptimized
                         />
                     </div>
                 </ScrollAnimation>
@@ -52,12 +51,13 @@ export default function FounderMessageSection() {
                             {/* Message */}
                             <div className="space-y-6 mb-10 md:mb-12">
                                 <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    For years I lived in a cycle of anxiety, addiction, and shame – all while my body
-                                    was falling apart from injuries and stress. I finally started healing when I learned
-                                    how the nervous system works... how trauma gets stored in the body... how ADHD
-                                    creates overwhelm... and how alignment affects anxiety. I'm rebuilding myself –
-                                    physically, mentally, emotionally. And now I'm building a place to help others do the
-                                    same.
+                                    For years I looked like I had it together on the outside while my relationships and
+                                    inner world were quietly falling apart. Learning how my nervous system, trauma, and
+                                    patterns of overwhelm actually worked was the turning point that helped me rebuild
+                                    my life with more honesty, stability, and care. DINKLife is the platform I wish I'd
+                                    had then—a place for people like us to understand what&apos;s really happening in our
+                                    bodies and minds, and to build healthier lives and partnerships together. If any of
+                                    this feels familiar, you&apos;re not alone—and I&apos;m building this with you in mind.
                                 </p>
                             </div>
 

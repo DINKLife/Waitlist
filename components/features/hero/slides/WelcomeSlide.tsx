@@ -9,7 +9,7 @@ export function WelcomeSlide() {
         <>
             <div className="max-w-6xl mx-auto text-center space-y-6 md:space-y-8">
                 {/* Main Headline with gradient effect - Enhanced Contrast */}
-                <div className="space-y-2 mb-6 md:mb-8">
+                <div className="space-y-4 mb-6 md:mb-8">
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
                         YOUR ADVENTURE
                         <br />
@@ -17,6 +17,9 @@ export function WelcomeSlide() {
                             STARTS HERE
                         </span>
                     </h1>
+                    <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/95 leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
+                        Discover world-class travel experiences designed for DINK couples
+                    </p>
                 </div>
 
                 {/* Primary CTA Button - Centered and Above Trust Badges */}

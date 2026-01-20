@@ -63,7 +63,7 @@ export function getFAQStructuredData() {
         name: "What do I get by joining the waitlist?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "When you join the waitlist, you'll receive: The 7-Day Nervous System Reset guide (free), Early access to the DINKLife community as a founding member, Behind-the-scenes updates, and Founder-only pricing with lifetime discounted access.",
+          text: "When you join the waitlist, you'll receive: Early access to the DINKLife community as a founding member, Behind-the-scenes updates, and Founder-only pricing with lifetime discounted access.",
         },
       },
       {
@@ -71,7 +71,7 @@ export function getFAQStructuredData() {
         name: "Is joining the waitlist free?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes! Joining the waitlist is completely free. You'll get the 7-Day Nervous System Reset guide immediately, and there's no obligation to purchase anything.",
+          text: "Yes! Joining the waitlist is completely free, and there's no obligation to purchase anything.",
         },
       },
       {

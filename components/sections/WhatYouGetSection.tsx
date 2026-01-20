@@ -5,28 +5,28 @@ import { ScrollAnimation } from "@/components/ui/ScrollAnimation";
 
 const benefits = [
   {
-    id: "nervous-system-reset",
-    icon: "/images/icons/nervous-system-reset.png",
-    title: "The 7-Day Nervous System Reset",
-    description: "A fast, ADHD-friendly routine to lower anxiety, tension, and inflammation.",
-  },
-  {
-    id: "early-access",
+    id: "travel-planning-tools",
     icon: "/images/icons/early-access-community.png",
-    title: "Early Access to the DINKLife Community",
-    description: "Be part of the founding group shaping the platform.",
+    title: "Travel Planning Tools & Resources",
+    description: "Access exclusive travel planning tools designed specifically for DINK couples exploring the world.",
   },
   {
-    id: "behind-scenes",
+    id: "travel-community",
+    icon: "/images/icons/early-access-community.png",
+    title: "DINK Travel Community Access",
+    description: "Join a community of like-minded DINK couples sharing travel experiences and recommendations.",
+  },
+  {
+    id: "travel-guides",
     icon: "/images/icons/behind-scenes-updates.png",
-    title: "Behind-the-scenes Updates",
-    description: "Honest, real updates on building DINKLife.",
+    title: "Curated Travel Guides & Recommendations",
+    description: "Get insider access to travel guides and destination recommendations tailored for DINK lifestyles.",
   },
   {
-    id: "founder-pricing",
+    id: "travel-discounts",
     icon: "/images/icons/founder-pricing.png",
-    title: "Founder-only Pricing",
-    description: "Special lifetime discounted access for early members.",
+    title: "Early Access to Travel Features & Discounts",
+    description: "Special founder pricing on travel features and exclusive discounts for early members.",
   },
 ];
 
@@ -44,7 +44,7 @@ export default function WhatYouGetSection() {
               WHAT YOU GET WHEN YOU JOIN NOW
             </h2>
             <p className="text-lg md:text-xl" style={{ color: "#002860" }}>
-              Joining the early access list gives you:
+              Joining the early access list gives you exclusive travel benefits:
             </p>
           </div>
         </ScrollAnimation>

@@ -21,13 +21,13 @@ const faqItems = [
         id: "what-do-i-get",
         question: "What do I get by joining the waitlist?",
         answer:
-            "When you join the waitlist, you'll receive: (1) The 7-Day Nervous System Reset guide absolutely free, (2) Early access to the DINKLife community as a founding member, (3) Behind-the-scenes updates on our building process, and (4) Founder-only pricing with lifetime discounted access when we launch.",
+            "When you join the waitlist, you'll receive: (1) Early access to the DINKLife community as a founding member, (2) Behind-the-scenes updates on our building process, and (3) Founder-only pricing with lifetime discounted access when we launch.",
     },
     {
         id: "is-it-free",
         question: "Is joining the waitlist free?",
         answer:
-            "Yes! Joining the waitlist is completely free. You'll get the 7-Day Nervous System Reset guide immediately, and there's no obligation to purchase anything. When we launch, you'll have the option to join with special founder pricing, but there's no commitment required now.",
+            "Yes! Joining the waitlist is completely free, and there's no obligation to purchase anything. When we launch, you'll have the option to join with special founder pricing, but there's no commitment required now.",
     },
     {
         id: "who-is-this-for",
@@ -40,12 +40,6 @@ const faqItems = [
         question: "How is DINKLife different from other wellness apps?",
         answer:
             "DINKLife isn't built from a place of perfection – it's built from survival. Our founder lived through decades of unmanaged ADHD, chronic anxiety, addiction, injuries, and burnout. This platform is built by someone who knows what it's like to be drowning and fought their way back. We focus on real, practical tools based on understanding the nervous system, trauma storage, and how alignment affects anxiety – not just generic wellness advice.",
-    },
-    {
-        id: "what-is-nervous-system-reset",
-        question: "What is the 7-Day Nervous System Reset?",
-        answer:
-            "The 7-Day Nervous System Reset is a fast, ADHD-friendly routine designed to lower anxiety, tension, and inflammation. It's a practical guide that helps you understand and work with your nervous system rather than against it. You'll receive this guide immediately when you join the waitlist, completely free.",
     },
     {
         id: "can-i-share",

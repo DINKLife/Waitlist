@@ -11,7 +11,7 @@ export default function FounderMessageSection() {
                 <ScrollAnimation direction="fadeRight" delay={0} duration={1}>
                     <div className="relative w-full h-screen lg:h-auto lg:min-h-screen bg-gradient-to-br from-gray-200 to-gray-300">
                         <Image
-                            src="/images/founder/founder-photo.png"
+                            src="/images/founder/founder-photo copy.png"
                             alt="Smiling person outdoors, representing the DINKLife founder message"
                             fill
                             className="object-cover"
@@ -51,13 +51,33 @@ export default function FounderMessageSection() {
                             {/* Message */}
                             <div className="space-y-6 mb-10 md:mb-12">
                                 <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    For years I looked like I had it together on the outside while my relationships and
-                                    inner world were quietly falling apart. Learning how my nervous system, trauma, and
-                                    patterns of overwhelm actually worked was the turning point that helped me rebuild
-                                    my life with more honesty, stability, and care. DINKLife is the platform I wish I'd
-                                    had then—a place for people like us to understand what&apos;s really happening in our
-                                    bodies and minds, and to build healthier lives and partnerships together. If any of
-                                    this feels familiar, you&apos;re not alone—and I&apos;m building this with you in mind.
+                                    DINKLife was born from a simple realization: there are millions of couples worldwide 
+                                    who have chosen to focus on their careers, passions, and adventures instead of having 
+                                    children—yet they lacked a dedicated community to connect and share experiences.
+                                </p>
+                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
+                                    But the vision for DINKLife runs deeper than just creating a platform. My personal 
+                                    journey with ADHD led me to discover the transformative power of physiological healing 
+                                    and breathwork. Through these practices, I found clarity, focus, and a profound sense 
+                                    of peace that traditional approaches never provided.
+                                </p>
+                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
+                                    I realized that so many of us—especially high-achieving DINK couples—are constantly 
+                                    moving, constantly achieving, yet we&apos;ve lost touch with ourselves. We&apos;re indoors, 
+                                    glued to screens, disconnected from nature and our own bodies. We need to get outside. 
+                                    We need to breathe. We need to rediscover our self-love and reconnect with what truly 
+                                    matters.
+                                </p>
+                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
+                                    DINKLife is about more than travel and community—it&apos;s about creating space for couples 
+                                    to step away from the noise, experience transformative adventures together, and remember 
+                                    who they are beneath all the doing. It&apos;s about healing, growth, and living intentionally 
+                                    in a world that constantly pulls us in every direction.
+                                </p>
+                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
+                                    Today, we&apos;re building a community that celebrates not just the freedom of the DINK 
+                                    lifestyle, but the opportunity it provides to invest in ourselves, our relationships, 
+                                    and our wellbeing in ways that truly transform how we experience life.
                                 </p>
                             </div>
 

@@ -40,5 +40,3 @@ export const BRAND_GRADIENTS = {
   overlay: 'linear-gradient(90deg, rgba(1, 94, 194, 0.2) 0%, rgba(215, 231, 255, 0.1) 100%)',
 } as const;
 
-export const WAITLIST_FORM_URL = 'https://forms.gle/5q334TSWGMcVDd1fA';
-

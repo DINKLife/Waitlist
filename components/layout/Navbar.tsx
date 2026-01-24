@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SOCIAL_LINKS } from "@/constants/social-links";
-import { BRAND_COLORS, BRAND_COLORS_RGBA, WAITLIST_FORM_URL } from "@/constants/brand";
+import { BRAND_COLORS, BRAND_COLORS_RGBA } from "@/constants/brand";
+import { useWaitlistModal } from "@/contexts/WaitlistModalContext";
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const { openWaitlistModal } = useWaitlistModal();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -91,7 +93,7 @@ export default function Navbar() {
 
                     {/* Right Side - CTA */}
                     <button
-                        onClick={() => window.open(WAITLIST_FORM_URL, '_blank', 'noopener,noreferrer')}
+                        onClick={openWaitlistModal}
                         className="px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 shrink-0 border-2 cursor-pointer"
                         style={{
                             backgroundColor: BRAND_COLORS.primary.main,

@@ -1,9 +1,11 @@
 "use client";
 
 import { Button } from "@heroui/button";
-import { BRAND_COLORS, WAITLIST_FORM_URL } from "@/constants/brand";
+import { BRAND_COLORS } from "@/constants/brand";
+import { useWaitlistModal } from "@/contexts/WaitlistModalContext";
 
 export function WelcomeSlide() {
+    const { openWaitlistModal } = useWaitlistModal();
 
     return (
         <>
@@ -11,14 +13,14 @@ export function WelcomeSlide() {
                 {/* Main Headline with gradient effect - Enhanced Contrast */}
                 <div className="space-y-4 mb-6 md:mb-8">
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-                        YOUR ADVENTURE
+                        LIVE YOUR ADVENTURE
                         <br />
                         <span className="bg-gradient-to-r from-[#D7E7FF] via-[#a8d0ff] to-[#7eb8ff] bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(215,231,255,0.5)]">
-                            STARTS HERE
+                            TOGETHER
                         </span>
                     </h1>
                     <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/95 leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-                        Discover world-class travel experiences designed for DINK couples
+                        A community and experiences for DINK couples—travel, wellness, and intentional living.
                     </p>
                 </div>
 
@@ -26,7 +28,7 @@ export function WelcomeSlide() {
                 <div className="pt-4 pb-2">
                     <Button
                         size="lg"
-                        onPress={() => window.open(WAITLIST_FORM_URL, '_blank', 'noopener,noreferrer')}
+                        onPress={openWaitlistModal}
                         className="
                             relative overflow-hidden
                             font-bold text-white shadow-2xl

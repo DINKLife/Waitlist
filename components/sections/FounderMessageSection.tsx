@@ -1,103 +1,129 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { ScrollAnimation } from "@/components/ui/ScrollAnimation";
 
+const founderCards = [
+  {
+    id: "community",
+    title: "Community for DINK couples",
+    summary:
+      "I wanted a place where DINK couples could find people who share the same season of life—without having to explain their choices.",
+  },
+  {
+    id: "wellness",
+    title: "Nervous system & wellness",
+    summary:
+      "Learning how my nervous system, trauma, and patterns of overwhelm worked helped me rebuild life with more honesty and stability.",
+  },
+  {
+    id: "adventure",
+    title: "Adventure & time outside",
+    summary:
+      "We spend too much time indoors and on screens. DINKLife is about getting outside, breathing deeply, and exploring together.",
+  },
+  {
+    id: "intentionalLiving",
+    title: "Intentional living & money",
+    summary:
+      "Without kids, we have a unique chance to invest in our relationships, wellbeing, and financial freedom on purpose—not by default.",
+  },
+] as const;
+
 export default function FounderMessageSection() {
-    return (
-        <section className="w-full min-h-screen bg-white flex items-stretch">
-            <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
-                {/* Left Panel - Photo */}
-                <ScrollAnimation direction="fadeRight" delay={0} duration={1}>
-                    <div className="relative w-full h-screen lg:h-auto lg:min-h-screen bg-gradient-to-br from-gray-200 to-gray-300">
-                        <Image
-                            src="/images/founder/founder-photo.png"
-                            alt="Smiling person outdoors, representing the DINKLife founder message"
-                            fill
-                            className="object-contain"
-                            priority
-                        />
-                    </div>
-                </ScrollAnimation>
+  const [activeId, setActiveId] = useState<(typeof founderCards)[number]["id"]>(
+    founderCards[0]?.id ?? "community"
+  );
 
-                {/* Right Panel - Message */}
-                <ScrollAnimation direction="fadeLeft" delay={200} duration={1}>
-                    <div
-                        className="w-full min-h-screen flex flex-col items-center justify-center px-6 md:px-12 lg:px-16 py-16 md:py-24 relative overflow-hidden"
-                        style={{ backgroundColor: "#015EC2" }}
+  return (
+    <section className="w-full bg-white flex items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+        {/* Left Panel - Photo */}
+        <ScrollAnimation direction="fadeRight" delay={0} duration={1}>
+          <div className="relative w-full h-[420px] sm:h-[480px] lg:h-full lg:min-h-[520px] bg-gradient-to-br from-gray-200 to-gray-300">
+            <Image
+              src="/images/founder/founder-photo.png"
+              alt="Smiling person outdoors, representing the DINKLife founder message"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </ScrollAnimation>
+
+        {/* Right Panel - Interactive Founder Widget */}
+        <ScrollAnimation direction="fadeLeft" delay={200} duration={1}>
+          <div
+            className="w-full flex flex-col items-center justify-center px-6 md:px-10 lg:px-14 py-10 md:py-14 lg:py-16 relative overflow-hidden"
+            style={{ backgroundColor: "#015EC2" }}
+          >
+            <div className="relative z-10 max-w-xl w-full space-y-6">
+              {/* Compact header */}
+              <div className="flex items-center gap-4">
+                <div
+                  className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0"
+                  style={{ backgroundColor: "#9CA3AF" }}
+                >
+                  <svg
+                    className="w-8 h-8 md:w-10 md:h-10 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
+                    From the Founder
+                  </h2>
+                  <p className="text-sm md:text-base text-white/85">
+                    A quick look at why DINKLife exists—for community, wellness, and adventure.
+                  </p>
+                </div>
+              </div>
+
+              {/* Interactive cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {founderCards.map((card) => {
+                  const isActive = card.id === activeId;
+                  return (
+                    <button
+                      key={card.id}
+                      type="button"
+                      onClick={() => setActiveId(card.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setActiveId(card.id);
+                        }
+                      }}
+                      className={`text-left rounded-xl border transition transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/80 focus-visible:ring-offset-[#015EC2] cursor-pointer p-4 bg-white/5 border-white/15 hover:-translate-y-1 hover:bg-white/10 hover:shadow-lg ${
+                        isActive ? "bg-white/15 border-white/70 shadow-lg" : ""
+                      }`}
                     >
-                        <div className="relative z-10 max-w-2xl w-full">
-                            {/* Profile Icon */}
-                            <div className="flex justify-center mb-8 md:mb-10">
-                                <div
-                                    className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center"
-                                    style={{ backgroundColor: "#9CA3AF" }}
-                                >
-                                    <svg
-                                        className="w-12 h-12 md:w-16 md:h-16 text-white"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                    </svg>
-                                </div>
-                            </div>
+                      <h3 className="text-sm md:text-base font-semibold text-white mb-1">
+                        {card.title}
+                      </h3>
+                      <p className="text-xs md:text-sm text-white/90 leading-relaxed">
+                        {card.summary}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
 
-                            {/* Heading */}
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-8 md:mb-12 uppercase tracking-tight">
-                                A MESSAGE FROM THE FOUNDER
-                            </h2>
-
-                            {/* Message */}
-                            <div className="space-y-6 mb-10 md:mb-12">
-                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    DINKLife was born from a simple realization: there are millions of couples worldwide 
-                                    who have chosen to focus on their careers, passions, and adventures instead of having 
-                                    children—yet they lacked a dedicated community to connect and share experiences.
-                                </p>
-                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    But the vision for DINKLife runs deeper than just creating a platform. My personal 
-                                    journey with ADHD led me to discover the transformative power of physiological healing 
-                                    and breathwork. Through these practices, I found clarity, focus, and a profound sense 
-                                    of peace that traditional approaches never provided.
-                                </p>
-                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    I realized that so many of us—especially high-achieving DINK couples—are constantly 
-                                    moving, constantly achieving, yet we&apos;ve lost touch with ourselves. We&apos;re indoors, 
-                                    glued to screens, disconnected from nature and our own bodies. We need to get outside. 
-                                    We need to breathe. We need to rediscover our self-love and reconnect with what truly 
-                                    matters.
-                                </p>
-                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    DINKLife is about more than travel and community—it&apos;s about creating space for couples 
-                                    to step away from the noise, experience transformative adventures together, and remember 
-                                    who they are beneath all the doing. It&apos;s about healing, growth, and living intentionally 
-                                    in a world that constantly pulls us in every direction.
-                                </p>
-                                <p className="text-base md:text-lg lg:text-xl text-white leading-relaxed text-center">
-                                    Today, we&apos;re building a community that celebrates not just the freedom of the DINK 
-                                    lifestyle, but the opportunity it provides to invest in ourselves, our relationships, 
-                                    and our wellbeing in ways that truly transform how we experience life.
-                                </p>
-                            </div>
-
-                            {/* Founder Info */}
-                            <div className="text-center">
-                                <p
-                                    className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2"
-                                    style={{ fontFamily: "sans-serif" }}
-                                >
-                                    Timothy Brown
-                                </p>
-                                <p className="text-base md:text-lg text-white/90" style={{ fontFamily: "sans-serif" }}>
-                                    Founder of DINKLife
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </ScrollAnimation>
+              {/* Founder name */}
+              <div className="pt-2">
+                <p className="text-sm md:text-base text-white/90">
+                  — Timothy Brown, Founder of DINKLife
+                </p>
+              </div>
             </div>
-        </section>
-    );
+          </div>
+        </ScrollAnimation>
+      </div>
+    </section>
+  );
 }
 

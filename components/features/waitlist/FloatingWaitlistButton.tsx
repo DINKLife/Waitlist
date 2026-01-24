@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@heroui/button";
-import { BRAND_COLORS, WAITLIST_FORM_URL } from "@/constants/brand";
+import { BRAND_COLORS } from "@/constants/brand";
+import { useWaitlistModal } from "@/contexts/WaitlistModalContext";
 import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 
 export function FloatingWaitlistButton() {
@@ -11,6 +12,7 @@ export function FloatingWaitlistButton() {
   const [shouldPulse, setShouldPulse] = useState(false);
   
   // Hide button on welcome slide (slide 0)
+  const { openWaitlistModal } = useWaitlistModal();
   let isWelcomeSlide = false;
   try {
     const carousel = useHeroCarousel();
@@ -67,7 +69,7 @@ export function FloatingWaitlistButton() {
       >
         <Button
           size="lg"
-          onPress={() => window.open(WAITLIST_FORM_URL, '_blank', 'noopener,noreferrer')}
+          onPress={openWaitlistModal}
           className={`
             relative overflow-hidden
             font-bold text-white shadow-2xl

@@ -4,8 +4,8 @@ import type { HeroSlideData } from "@/types/hero";
 export const HERO_SLIDES: HeroSlideData[] = [
     {
         id: "travel-welcome",
-        title: "Travel",
-        backgroundImage: "/images/backgrounds/Travel.jpg",
+        title: "DINK Couples",
+        backgroundImage: "/images/backgrounds/hero-couple.png",
         content: <WelcomeSlide />,
     },
 ];

@@ -51,7 +51,24 @@ export async function sendWelcomeEmail({
     });
     return { ok: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "SendGrid error";
-    return { ok: false, error: message };
+    const fallbackMessage =
+      err instanceof Error ? err.message : "SendGrid error";
+    const statusCode =
+      typeof (err as { code?: number })?.code === "number"
+        ? (err as { code: number }).code
+        : (err as { response?: { statusCode?: number } })?.response?.statusCode;
+    const responseMessage =
+      (err as { response?: { body?: { errors?: { message?: string }[] } } })
+        ?.response?.body?.errors?.[0]?.message;
+
+    const parts = [
+      typeof statusCode === "number"
+        ? `SendGrid error (${statusCode})`
+        : "SendGrid error",
+      responseMessage,
+      fallbackMessage,
+    ].filter(Boolean);
+
+    return { ok: false, error: parts.join(": ") };
   }
 }

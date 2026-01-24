@@ -31,8 +31,12 @@ export async function POST(req: Request) {
 
     const { ok, error } = await sendWelcomeEmail({ to: email, name });
     if (!ok) {
+      const hint =
+        error && error.startsWith("SendGrid error (401)")
+          ? " SendGrid unauthorized: check API key permissions (Mail Send) and sender verification."
+          : "";
       return NextResponse.json(
-        { error: error ?? "Could not send confirmation. Please try again." },
+        { error: `${error ?? "Could not send confirmation. Please try again."}${hint}` },
         { status: 502 }
       );
     }

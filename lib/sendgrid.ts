@@ -1,4 +1,4 @@
-loimport sgMail from "@sendgrid/mail";
+import sgMail from "@sendgrid/mail";
 
 const apiKey = process.env.SENDGRID_API_KEY;
 const fromEmail = process.env.SENDGRID_FROM_EMAIL ?? "no-reply@dinklife.com";

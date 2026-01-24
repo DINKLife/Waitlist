@@ -1,7 +1,7 @@
-import sgMail from "@sendgrid/mail";
+loimport sgMail from "@sendgrid/mail";
 
 const apiKey = process.env.SENDGRID_API_KEY;
-const fromEmail = process.env.SENDGRID_FROM_EMAIL ?? "noreply@dinklife.com";
+const fromEmail = process.env.SENDGRID_FROM_EMAIL ?? "hello@dinklife.com";
 const fromName = process.env.SENDGRID_FROM_NAME ?? "DINKLife Team";
 
 if (apiKey) {

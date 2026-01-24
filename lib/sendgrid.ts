@@ -20,6 +20,15 @@ export async function sendWelcomeEmail({
   if (!apiKey) {
     return { ok: false, error: "SENDGRID_API_KEY is not configured" };
   }
+  if (/\s/.test(apiKey)) {
+    return {
+      ok: false,
+      error: "SENDGRID_API_KEY contains whitespace or a newline",
+    };
+  }
+  if (apiKey.length < 40) {
+    return { ok: false, error: "SENDGRID_API_KEY appears too short" };
+  }
 
   const greeting = name ? `Hi ${name},` : "Hi,";
 

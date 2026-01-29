@@ -62,10 +62,11 @@ export default function FounderMessageSection() {
                   Building DINKLife for modern members
                 </p>
                 <p className="text-base md:text-lg text-[#002860] leading-relaxed mt-4">
-                  I built DINKLife as a DINK myself after years of planning
-                  travel, wellness, and money in scattered places. We are
-                  creating a simple AI co-pilot so members can make smarter
-                  decisions together without losing the human touch.
+                  I built DINKLife as a community for people who want to plan
+                  travel, wellness, and money in one place—without the
+                  scattered spreadsheets and tabs. We're building a simple AI
+                  co-pilot so members can make smarter decisions without
+                  losing the human touch.
                 </p>
                 <p className="text-sm text-[#002860]/70 mt-4">
                   — Timothy Brown, Founder

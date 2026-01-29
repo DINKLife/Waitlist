@@ -1,25 +1,26 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "DINKLife - The Ultimate Platform for DINK Couples",
+  name: "DINKLife - The Ultimate Platform for DINK Members",
   shortName: "DINKLife",
-  description: "Join DINKLife - the premier platform designed exclusively for DINK (Dual Income No Kids) couples. Discover tools, resources, and a community tailored for couples living the DINK lifestyle. Get early access, exclusive benefits, and founder pricing by joining our waitlist today.",
+  description:
+    "Join DINKLife - the premier platform designed for people living the DINK (Dual Income No Kids) lifestyle. Discover tools, resources, and a community tailored for members of the DINK community. Get early access, exclusive benefits, and founder pricing by joining our waitlist today.",
   keywords: [
     "DINK",
-    "DINK couples",
+    "DINK members",
     "Dual Income No Kids",
     "DINK lifestyle",
     "DINK community",
-    "childfree couples",
+    "childfree lifestyle",
     "DINKLife",
-    "couples without kids",
+    "people without kids",
     "DINK resources",
     "DINK tools",
     "DINK platform",
     "DINK waitlist",
     "DINK benefits",
     "DINK lifestyle platform",
-    "DINK couples community",
+    "DINK community members",
     "Timothy Brown",
     "DINKLife platform",
   ],
@@ -86,7 +87,8 @@ export const siteConfig = {
   ],
   links: {
     twitter: "https://twitter.com/dinklife",
-    instagram: "https://www.instagram.com/dinklifecom/?utm_source=ig_web_button_share_sheet",
+    instagram:
+      "https://www.instagram.com/dinklifecom/?utm_source=ig_web_button_share_sheet",
     linkedin: "https://www.linkedin.com/company/dinklife-inc",
     facebook: "https://www.facebook.com/dinklifecom",
     discord: "https://discord.gg/dinklife",

@@ -3,6 +3,7 @@
 import HeroSection from "@/components/features/waitlist/HeroSection";
 import WhyDinkLifeSection from "@/components/sections/WhyDinkLifeSection";
 import WhatYouGetSection from "@/components/sections/WhatYouGetSection";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import FounderMessageSection from "@/components/sections/FounderMessageSection";
 import FAQSection from "@/components/sections/FAQSection";
 import {
@@ -19,12 +20,12 @@ export default function Home() {
     <>
       {/* Structured Data for SEO */}
       <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        type="application/ld+json"
       />
       <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+        type="application/ld+json"
       />
 
       <div className="bg-white">
@@ -33,21 +34,29 @@ export default function Home() {
           <HeroSection />
         </section>
 
-        {/* <WhyDinkLifeSection /> */}
+        {/* Why DINKLife Section */}
+        <section className="min-h-screen w-full">
+          <WhyDinkLifeSection />
+        </section>
 
         {/* What You Get Section */}
         <section className="min-h-screen w-full">
           <WhatYouGetSection />
         </section>
 
-        {/* Founder Message Section */}
+        {/* Testimonials Section */}
         <section className="min-h-screen w-full">
-          <FounderMessageSection />
+          <TestimonialsSection />
         </section>
 
         {/* FAQ Section */}
         <section className="min-h-screen w-full">
           <FAQSection />
+        </section>
+
+        {/* Founder Message Section */}
+        <section className="min-h-screen w-full">
+          <FounderMessageSection />
         </section>
       </div>
     </>

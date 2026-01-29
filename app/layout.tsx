@@ -3,11 +3,11 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
+
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { FloatingWaitlistButton } from "@/components/features/waitlist/FloatingWaitlistButton";
 import { HeroCarouselProvider } from "@/contexts/HeroCarouselContext";
-
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 
@@ -109,13 +109,11 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <HeroCarouselProvider>
             <div className="relative flex flex-col min-h-screen overflow-x-hidden">
               <Navbar />
-              <main className="flex-grow w-full">
-                {children}
-              </main>
+              <main className="flex-grow w-full bg-white">{children}</main>
               <Footer />
               <FloatingWaitlistButton />
             </div>

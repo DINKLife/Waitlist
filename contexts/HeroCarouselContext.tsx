@@ -7,7 +7,9 @@ interface HeroCarouselContextType {
   setCurrentSlide: (slide: number) => void;
 }
 
-const HeroCarouselContext = createContext<HeroCarouselContextType | undefined>(undefined);
+const HeroCarouselContext = createContext<HeroCarouselContextType | undefined>(
+  undefined,
+);
 
 export function HeroCarouselProvider({ children }: { children: ReactNode }) {
   // Always return 0 since we only have one slide (welcome slide)
@@ -23,9 +25,12 @@ export function HeroCarouselProvider({ children }: { children: ReactNode }) {
 
 export function useHeroCarousel() {
   const context = useContext(HeroCarouselContext);
+
   if (context === undefined) {
-    throw new Error("useHeroCarousel must be used within a HeroCarouselProvider");
+    throw new Error(
+      "useHeroCarousel must be used within a HeroCarouselProvider",
+    );
   }
+
   return context;
 }
-

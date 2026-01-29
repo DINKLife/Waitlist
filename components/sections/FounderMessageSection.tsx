@@ -1,122 +1,74 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+
 import { ScrollAnimation } from "@/components/ui/ScrollAnimation";
 
-const founderCards = [
-  {
-    id: "community",
-    title: "Community for DINK couples",
-    summary:
-      "I wanted a place where DINK couples could find people who share the same season of life—without having to explain their choices.",
-  },
-  {
-    id: "wellness",
-    title: "Nervous system & wellness",
-    summary:
-      "Learning how my nervous system, trauma, and patterns of overwhelm worked helped me rebuild life with more honesty and stability.",
-  },
-  {
-    id: "adventure",
-    title: "Adventure & time outside",
-    summary:
-      "We spend too much time indoors and on screens. DINKLife is about getting outside, breathing deeply, and exploring together.",
-  },
-  {
-    id: "intentionalLiving",
-    title: "Intentional living & money",
-    summary:
-      "Without kids, we have a unique chance to invest in our relationships, wellbeing, and financial freedom on purpose—not by default.",
-  },
-] as const;
-
 export default function FounderMessageSection() {
-  const [activeId, setActiveId] = useState<(typeof founderCards)[number]["id"]>(
-    founderCards[0]?.id ?? "community"
-  );
-
   return (
-    <section className="w-full bg-white flex items-stretch">
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
-        {/* Left Panel - Photo */}
-        <ScrollAnimation direction="fadeRight" delay={0} duration={1}>
-          <div className="relative w-full h-[420px] sm:h-[480px] lg:h-full lg:min-h-[520px] bg-gradient-to-br from-gray-200 to-gray-300">
-            <Image
-              src="/images/founder/founder-photo.png"
-              alt="Smiling person outdoors, representing the DINKLife founder message"
-              fill
-              className="object-contain"
-              priority
-            />
+    <section className="w-full bg-[#F7FAFF] py-12 md:py-16 px-6 md:px-12 lg:px-20">
+      <div className="max-w-6xl mx-auto space-y-8">
+        <ScrollAnimation delay={0} direction="fadeUp" duration={0.9}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              {
+                title: "Community that fits",
+                body: "Match with members who share your pace, priorities, and schedule.",
+              },
+              {
+                title: "Wellness that sticks",
+                body: "Lightweight rituals and resets that actually fit real life.",
+              },
+              {
+                title: "Travel, simplified",
+                body: "AI-guided trip ideas tailored to budget, energy, and timing.",
+              },
+            ].map((card) => (
+              <div
+                key={card.title}
+                className="rounded-2xl border border-[#E1ECFF] bg-white p-4 md:p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              >
+                <h3 className="text-sm md:text-base font-semibold text-[#002860] mb-2">
+                  {card.title}
+                </h3>
+                <p className="text-xs md:text-sm text-[#002860]/75 leading-relaxed">
+                  {card.body}
+                </p>
+              </div>
+            ))}
           </div>
         </ScrollAnimation>
 
-        {/* Right Panel - Interactive Founder Widget */}
-        <ScrollAnimation direction="fadeLeft" delay={200} duration={1}>
-          <div
-            className="w-full flex flex-col items-center justify-center px-6 md:px-10 lg:px-14 py-10 md:py-14 lg:py-16 relative overflow-hidden"
-            style={{ backgroundColor: "#015EC2" }}
-          >
-            <div className="relative z-10 max-w-xl w-full space-y-6">
-              {/* Compact header */}
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: "#9CA3AF" }}
-                >
-                  <svg
-                    className="w-8 h-8 md:w-10 md:h-10 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                </div>
-                <div>
-                  <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
-                    From the Founder
-                  </h2>
-                  <p className="text-sm md:text-base text-white/85">
-                    A quick look at why DINKLife exists—for community, wellness, and adventure.
-                  </p>
-                </div>
+        <ScrollAnimation delay={150} direction="fadeUp" duration={0.9}>
+          <div className="rounded-3xl border border-[#E1ECFF] bg-white p-6 md:p-8 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-start gap-5">
+              <div className="relative h-24 w-24 md:h-28 md:w-28 rounded-2xl overflow-hidden border border-white shadow-md flex-shrink-0">
+                <Image
+                  fill
+                  priority
+                  alt="Portrait of the DINKLife founder"
+                  className="object-cover object-top"
+                  src="/images/founder/founder-photo.png"
+                />
               </div>
-
-              {/* Interactive cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {founderCards.map((card) => {
-                  const isActive = card.id === activeId;
-                  return (
-                    <button
-                      key={card.id}
-                      type="button"
-                      onClick={() => setActiveId(card.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          setActiveId(card.id);
-                        }
-                      }}
-                      className={`text-left rounded-xl border transition transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/80 focus-visible:ring-offset-[#015EC2] cursor-pointer p-4 bg-white/5 border-white/15 hover:-translate-y-1 hover:bg-white/10 hover:shadow-lg ${
-                        isActive ? "bg-white/15 border-white/70 shadow-lg" : ""
-                      }`}
-                    >
-                      <h3 className="text-sm md:text-base font-semibold text-white mb-1">
-                        {card.title}
-                      </h3>
-                      <p className="text-xs md:text-sm text-white/90 leading-relaxed">
-                        {card.summary}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Founder name */}
-              <div className="pt-2">
-                <p className="text-sm md:text-base text-white/90">
-                  — Timothy Brown, Founder of DINKLife
+              <div className="flex-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#015EC2]">
+                  Founder
+                </p>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#002860] mt-1">
+                  Timothy Brown
+                </h2>
+                <p className="text-sm text-[#002860]/70">
+                  Building DINKLife for modern members
+                </p>
+                <p className="text-base md:text-lg text-[#002860] leading-relaxed mt-4">
+                  I built DINKLife as a DINK myself after years of planning
+                  travel, wellness, and money in scattered places. We are
+                  creating a simple AI co-pilot so members can make smarter
+                  decisions together without losing the human touch.
+                </p>
+                <p className="text-sm text-[#002860]/70 mt-4">
+                  — Timothy Brown, Founder
                 </p>
               </div>
             </div>
@@ -126,4 +78,3 @@ export default function FounderMessageSection() {
     </section>
   );
 }
-

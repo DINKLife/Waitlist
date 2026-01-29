@@ -35,7 +35,6 @@ export type Country = (typeof COUNTRIES)[number];
  * Country name mapping for geolocation API variations
  */
 export const COUNTRY_NAME_MAPPING: Record<string, string> = {
-  "USA": "United States",
-  "UK": "United Kingdom",
+  USA: "United States",
+  UK: "United Kingdom",
 };
-

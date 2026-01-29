@@ -21,7 +21,7 @@ export function getOrganizationStructuredData() {
     },
     audience: {
       "@type": "Audience",
-      audienceType: "DINK Couples (Dual Income No Kids)",
+      audienceType: "DINK Members (Dual Income No Kids)",
     },
     sameAs: [
       siteConfig.links.twitter,
@@ -55,7 +55,7 @@ export function getFAQStructuredData() {
         name: "What is DINKLife?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "DINKLife is a platform designed exclusively for DINK (Dual Income No Kids) couples. It provides tools, resources, and a community tailored for couples living the DINK lifestyle.",
+          text: "DINKLife is a platform designed for people living the DINK (Dual Income No Kids) lifestyle. It provides tools, resources, and a community tailored for members of the DINK community.",
         },
       },
       {
@@ -76,13 +76,12 @@ export function getFAQStructuredData() {
       },
       {
         "@type": "Question",
-        name: "What is a DINK couple?",
+        name: "What is the DINK lifestyle?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "DINK stands for Dual Income No Kids. DINK couples are partners who both work and have chosen not to have children, allowing them to focus on their careers, relationships, and personal growth.",
+          text: "DINK stands for Dual Income No Kids. It refers to people with dual income who have chosen not to have children, allowing them to focus on their careers, relationships, and personal growth.",
         },
       },
     ],
   };
 }
-

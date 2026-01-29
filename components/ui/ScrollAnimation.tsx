@@ -7,7 +7,14 @@ interface ScrollAnimationProps {
   className?: string;
   delay?: number;
   duration?: number;
-  direction?: "fadeIn" | "fadeUp" | "fadeDown" | "fadeLeft" | "fadeRight" | "scale" | "blur";
+  direction?:
+    | "fadeIn"
+    | "fadeUp"
+    | "fadeDown"
+    | "fadeLeft"
+    | "fadeRight"
+    | "scale"
+    | "blur";
   threshold?: number;
 }
 
@@ -23,28 +30,51 @@ export function ScrollAnimation({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setIsVisible(true);
-          }, delay);
-        }
-      },
-      {
-        threshold,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
+    const node = ref.current;
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    // Fail-open: never keep content hidden if we can't observe it.
+    if (!node) {
+      setIsVisible(true);
+
+      return;
     }
 
+    if (typeof window === "undefined") return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          window.setTimeout(() => setIsVisible(true), delay);
+        }
+      },
+      { threshold, rootMargin: "0px 0px -50px 0px" },
+    );
+
+    observer.observe(node);
+
+    // If we're already in/near the viewport on mount, reveal immediately.
+    const rect = node.getBoundingClientRect();
+    const viewportH = window.innerHeight || 0;
+    const nearViewport = rect.top < viewportH + 120 && rect.bottom > -120;
+
+    if (nearViewport) setIsVisible(true);
+
+    // Safety timeout: ensure we never stay invisible.
+    const safetyId = window.setTimeout(
+      () => setIsVisible(true),
+      Math.max(350, delay),
+    );
+
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      window.clearTimeout(safetyId);
+      observer.unobserve(node);
+      observer.disconnect();
     };
   }, [delay, threshold]);
 
@@ -94,9 +124,12 @@ export function ScrollAnimation({
   };
 
   return (
-    <div ref={ref} className={`${getAnimationClass()} ${className}`} style={{ transitionDuration: `${duration}s` }}>
+    <div
+      ref={ref}
+      className={`${getAnimationClass()} ${className}`}
+      style={{ transitionDuration: `${duration}s` }}
+    >
       {children}
     </div>
   );
 }
-

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import { SOCIAL_LINKS } from "@/constants/social-links";
 import { BRAND_COLORS, BRAND_COLORS_RGBA } from "@/constants/brand";
 
@@ -23,18 +24,18 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
           {/* Brand Section */}
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
-            <Link href="/" className="flex items-center space-x-2 group">
+            <Link className="flex items-center space-x-2 group" href="/">
               <div className="relative w-10 h-10 transition-transform group-hover:scale-110">
                 <Image
-                  src="/favicon.svg"
+                  priority
                   alt="DinkLife Logo"
-                  width={40}
-                  height={40}
                   className="object-contain brightness-0 invert"
+                  height={40}
+                  src="/favicon.svg"
                   style={{
                     filter: "brightness(0) invert(1)",
                   }}
-                  priority
+                  width={40}
                 />
               </div>
               <span
@@ -48,8 +49,8 @@ export default function Footer() {
               className="text-sm leading-relaxed text-center md:text-left max-w-md"
               style={{ color: BRAND_COLORS.primary.light, opacity: 0.8 }}
             >
-              A healing platform built by someone who knows what it&apos;s like to be drowning – and
-              who fought their way back.
+              A healing platform built by someone who knows what it&apos;s like
+              to be drowning – and who fought their way back.
             </p>
           </div>
 
@@ -58,12 +59,12 @@ export default function Footer() {
             {SOCIAL_LINKS.map((social) => (
               <Link
                 key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-all duration-300 hover:scale-110 hover:rotate-6"
-                style={{ color: BRAND_COLORS.primary.light }}
                 aria-label={social.ariaLabel}
+                className="transition-all duration-300 hover:scale-110 hover:rotate-6"
+                href={social.href}
+                rel="noopener noreferrer"
+                style={{ color: BRAND_COLORS.primary.light }}
+                target="_blank"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = BRAND_COLORS.white;
                 }}
@@ -96,4 +97,3 @@ export default function Footer() {
     </footer>
   );
 }
-

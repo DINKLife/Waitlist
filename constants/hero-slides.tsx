@@ -1,12 +1,12 @@
-import { WelcomeSlide } from "@/components/features/hero/slides/WelcomeSlide";
 import type { HeroSlideData } from "@/types/hero";
 
-export const HERO_SLIDES: HeroSlideData[] = [
-    {
-        id: "travel-welcome",
-        title: "DINK Couples",
-        backgroundImage: "/images/backgrounds/hero-couple.png",
-        content: <WelcomeSlide />,
-    },
-];
+import { WelcomeSlide } from "@/components/features/hero/slides/WelcomeSlide";
 
+export const HERO_SLIDES: HeroSlideData[] = [
+  {
+    id: "travel-welcome",
+    title: "AI-First DINK Life",
+    backgroundImage: "",
+    content: <WelcomeSlide />,
+  },
+];

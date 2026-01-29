@@ -3,6 +3,7 @@
  */
 
 import { useState, useCallback } from "react";
+
 import { COUNTRIES, COUNTRY_NAME_MAPPING } from "@/constants/countries";
 import { logger } from "@/lib/utils/logger";
 
@@ -24,14 +25,17 @@ export function useCountryDetection() {
       if (data.country_name) {
         // Map API country name to our country list
         let detectedCountry = COUNTRIES.find(
-          (country) => country.toLowerCase() === data.country_name.toLowerCase()
+          (country) =>
+            country.toLowerCase() === data.country_name.toLowerCase(),
         );
 
         // Handle common country name variations
         if (!detectedCountry) {
-          const mappedName = COUNTRY_NAME_MAPPING[data.country_name] || data.country_name;
+          const mappedName =
+            COUNTRY_NAME_MAPPING[data.country_name] || data.country_name;
+
           detectedCountry = COUNTRIES.find(
-            (country) => country.toLowerCase() === mappedName.toLowerCase()
+            (country) => country.toLowerCase() === mappedName.toLowerCase(),
           );
         }
 
@@ -39,9 +43,11 @@ export function useCountryDetection() {
           return detectedCountry;
         }
       }
+
       return null;
     } catch (error) {
       logger.info("Could not detect country", { error });
+
       // Silently fail - user can still select manually
       return null;
     } finally {
@@ -51,4 +57,3 @@ export function useCountryDetection() {
 
   return { detectCountry, isDetecting };
 }
-

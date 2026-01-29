@@ -31,4 +31,3 @@ export const SOCIAL_LINKS = [
     ariaLabel: "Subscribe to our YouTube channel",
   },
 ] as const;
-

@@ -1,235 +1,89 @@
 "use client";
 
-import Image from "next/image";
 import { ScrollAnimation } from "@/components/ui/ScrollAnimation";
+
+const pillars = [
+  {
+    id: "ai",
+    title: "AI-forward planning",
+    description:
+      "A concierge-like co-pilot that removes friction from travel, wellness, and community decisions.",
+  },
+  {
+    id: "community",
+    title: "People who get it",
+    description:
+      "Match with DINK members who share your pace, priorities, and season of life.",
+  },
+  {
+    id: "wellness",
+    title: "Wellness with momentum",
+    description:
+      "Simple, repeatable rituals that keep your nervous system grounded and your relationship connected.",
+  },
+  {
+    id: "fire",
+    title: "FIRE without FOMO",
+    description:
+      "Travel and experiences that align with long-term freedom, not just short-term impulses.",
+  },
+];
 
 export default function WhyDinkLifeSection() {
   return (
     <section className="w-full min-h-screen bg-white py-16 md:py-24 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Left Section - Visuals and Quote */}
-          <div className="space-y-6">
-            {/* Quote Box */}
-            <ScrollAnimation direction="fadeUp" delay={0} duration={0.8}>
-              <div className="relative bg-gray-100 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <p className="text-lg md:text-xl leading-relaxed text-gray-800">
-                  It needed a healing platform built by someone who knows what it's like to be{" "}
-                  <strong className="font-bold">drowning</strong> — and someone who{" "}
-                  <strong className="font-bold">fought their way back.</strong>
-                </p>
-                <div className="text-6xl md:text-8xl font-serif text-gray-300 mt-4 leading-none">
-                  99
-                </div>
-              </div>
-            </ScrollAnimation>
-
-            {/* Images Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* Image 1 - Warehouse/Industrial */}
-              <ScrollAnimation direction="fadeUp" delay={100} duration={0.8}>
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-                  <Image
-                    src="/images/other/image 6.png"
-                    alt="Person in warehouse setting"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </ScrollAnimation>
-
-              {/* Image 2 - Outdoor/Camping */}
-              <ScrollAnimation direction="fadeUp" delay={200} duration={0.8}>
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg mt-8 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-                  <Image
-                    src="/images/other/image 7.png"
-                    alt="Person in outdoor setting"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </ScrollAnimation>
-            </div>
-          </div>
-
-          {/* Right Section - Text Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 md:gap-12 items-start">
           <div className="space-y-6 md:space-y-8">
-            {/* Main Heading */}
-            <ScrollAnimation direction="fadeUp" delay={0} duration={0.8}>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight" style={{ color: "#002860" }}>
-                WHY DINKLIFE EXISTS
+            <ScrollAnimation delay={0} direction="fadeUp" duration={0.8}>
+              <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#015EC2] font-semibold">
+                Why DINKLife
+              </p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#002860]">
+                Built for DINK members who want more intentionality and less
+                noise.
               </h2>
             </ScrollAnimation>
 
-            {/* Introductory Text */}
-            <ScrollAnimation direction="fadeUp" delay={100} duration={0.8}>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800">
-                I didn't build DINKLife from a place of perfection — I built it from{" "}
-                <strong className="font-bold">survival.</strong>
+            <ScrollAnimation delay={120} direction="fadeUp" duration={0.8}>
+              <p className="text-lg md:text-xl leading-relaxed text-[#002860]/80">
+                DINKLife is a modern lifestyle platform for members who want to
+                travel well, stay grounded, and make FIRE-aligned choices
+                without sacrificing connection.
               </p>
             </ScrollAnimation>
 
-            {/* Section Heading */}
-            <ScrollAnimation direction="fadeUp" delay={200} duration={0.8}>
-              <p className="text-lg md:text-xl font-bold text-gray-800 mt-6">
-                After living for decades with:
-              </p>
-            </ScrollAnimation>
-
-            {/* Bulleted List */}
-            <ScrollAnimation direction="fadeUp" delay={300} duration={0.8}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">Unmanaged ADHD</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">Chronic Anxiety</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">6 alcohol-related DWIs</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">Chronic Inflammation & Pain</span>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">A Traumatic Ankle And Collarbone Injury</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">Years Of Shame And Self-Medication</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">Emotional Overwhelm</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 mt-1 flex-shrink-0"
-                      style={{ color: "#002860" }}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-gray-800">Burnout</span>
-                  </div>
-                </div>
+            <ScrollAnimation delay={220} direction="fadeUp" duration={0.8}>
+              <div className="rounded-2xl border border-[#E1ECFF] bg-[#F7FAFF] p-6 md:p-8">
+                <p className="text-base md:text-lg text-[#002860] leading-relaxed">
+                  We built DINKLife to feel like a smart, realistic co-pilot—so
+                  you can focus on the life you are designing together.
+                </p>
               </div>
             </ScrollAnimation>
+          </div>
 
-            {/* Concluding Statements */}
-            <ScrollAnimation direction="fadeUp" delay={400} duration={0.8}>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800 mt-8">
-                I realized the world didn't need another polished{" "}
-                <strong className="font-bold">&quot;wellness app.&quot;</strong>
-              </p>
-            </ScrollAnimation>
-
-            {/* Call to Action Bar */}
-            <ScrollAnimation direction="scale" delay={500} duration={0.8}>
-              <div
-                className="mt-8 rounded-lg p-6 md:p-8 text-white text-xl md:text-2xl font-semibold hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-                style={{
-                  background: "linear-gradient(90deg, #015EC2 0%, #002860 100%)",
-                }}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {pillars.map((pillar, index) => (
+              <ScrollAnimation
+                key={pillar.id}
+                delay={index * 120}
+                direction="fadeUp"
+                duration={0.8}
               >
-                DINKLife is the path I wish I had 10 years ago.
-              </div>
-            </ScrollAnimation>
+                <div className="rounded-2xl border border-[#E1ECFF] bg-white p-5 md:p-6 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 h-full">
+                  <h3 className="text-lg md:text-xl font-semibold text-[#002860] mb-2">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-sm md:text-base text-[#002860]/75 leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </div>
+              </ScrollAnimation>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
 }
-

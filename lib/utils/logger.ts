@@ -2,8 +2,7 @@
  * Environment-aware logging utility
  * Only logs to console in development, uses structured logging in production
  */
-
-type LogLevel = "info" | "warn" | "error";
+/* eslint-disable no-console */
 
 interface LogContext {
   [key: string]: unknown;
@@ -34,9 +33,10 @@ class Logger {
    * Log error messages (always logged)
    */
   error(message: string, error?: Error | unknown, context?: LogContext): void {
-    const errorDetails = error instanceof Error 
-      ? { message: error.message, stack: error.stack }
-      : error;
+    const errorDetails =
+      error instanceof Error
+        ? { message: error.message, stack: error.stack }
+        : error;
 
     if (this.isDevelopment) {
       console.error(`[ERROR] ${message}`, errorDetails || "", context || "");
@@ -49,4 +49,3 @@ class Logger {
 }
 
 export const logger = new Logger();
-

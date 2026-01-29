@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@heroui/button";
+
 import { BRAND_COLORS } from "@/constants/brand";
 import { useWaitlistModal } from "@/contexts/WaitlistModalContext";
 import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
@@ -10,12 +11,14 @@ export function FloatingWaitlistButton() {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldBounce, setShouldBounce] = useState(false);
   const [shouldPulse, setShouldPulse] = useState(false);
-  
+
   // Hide button on welcome slide (slide 0)
   const { openWaitlistModal } = useWaitlistModal();
   let isWelcomeSlide = false;
+
   try {
     const carousel = useHeroCarousel();
+
     isWelcomeSlide = carousel.currentSlide === 0;
   } catch {
     // Not in carousel context, show button (not on home page with carousel)
@@ -47,6 +50,7 @@ export function FloatingWaitlistButton() {
   useEffect(() => {
     if (shouldBounce) {
       const timer = setTimeout(() => setShouldBounce(false), 1000);
+
       return () => clearTimeout(timer);
     }
   }, [shouldBounce]);
@@ -68,8 +72,6 @@ export function FloatingWaitlistButton() {
         `}
       >
         <Button
-          size="lg"
-          onPress={openWaitlistModal}
           className={`
             relative overflow-hidden
             font-bold text-white shadow-2xl
@@ -83,41 +85,43 @@ export function FloatingWaitlistButton() {
             group
             ${shouldPulse ? "animate-pulse-scale" : ""}
           `}
+          size="lg"
           style={{
             background: `linear-gradient(135deg, ${BRAND_COLORS.primary.dark} 0%, ${BRAND_COLORS.primary.main} 50%, ${BRAND_COLORS.primary.light} 100%)`,
           }}
+          onPress={openWaitlistModal}
         >
           {/* Animated gradient overlay on hover */}
-          <span 
+          <span
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
               background: `linear-gradient(135deg, ${BRAND_COLORS.primary.main} 0%, ${BRAND_COLORS.primary.light} 100%)`,
             }}
           />
-          
+
           {/* Ripple effect */}
           <span className="absolute inset-0 rounded-full bg-white/30 scale-0 group-hover:scale-100 group-hover:opacity-0 transition-all duration-700" />
-          
+
           {/* Button content */}
           <span className="relative flex items-center gap-2">
-            <svg 
-              className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-12 transition-transform duration-300" 
-              fill="none" 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth="2" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-12 transition-transform duration-300"
+              fill="none"
               stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
             >
               <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
             </svg>
-            <span className="whitespace-nowrap">Join the Waitlist</span>
+            <span className="whitespace-nowrap">Get Early Access</span>
           </span>
         </Button>
 
         {/* Pulse animation ring - shows every 30 seconds */}
         {shouldPulse && (
-          <div 
+          <div
             className="absolute inset-0 rounded-full animate-ping opacity-30 pointer-events-none"
             style={{
               background: BRAND_COLORS.primary.light,
@@ -129,4 +133,3 @@ export function FloatingWaitlistButton() {
     </>
   );
 }
-

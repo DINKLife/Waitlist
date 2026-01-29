@@ -10,6 +10,7 @@ import {
 } from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
+
 import { BRAND_COLORS } from "@/constants/brand";
 
 type WaitlistModalContextValue = {
@@ -18,16 +19,25 @@ type WaitlistModalContextValue = {
 };
 
 const WaitlistModalContext = createContext<WaitlistModalContextValue | null>(
-  null
+  null,
 );
 
 export function useWaitlistModal() {
   const ctx = useContext(WaitlistModalContext);
-  if (!ctx) throw new Error("useWaitlistModal must be used within WaitlistModalProvider");
+
+  if (!ctx)
+    throw new Error(
+      "useWaitlistModal must be used within WaitlistModalProvider",
+    );
+
   return ctx;
 }
 
-export function WaitlistModalProvider({ children }: { children: React.ReactNode }) {
+export function WaitlistModalProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -62,9 +72,11 @@ export function WaitlistModalProvider({ children }: { children: React.ReactNode 
         }),
       });
       const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
         setLoading(false);
+
         return;
       }
       setSuccess(true);
@@ -84,16 +96,16 @@ export function WaitlistModalProvider({ children }: { children: React.ReactNode 
     <WaitlistModalContext.Provider value={value}>
       {children}
       <Modal
-        isOpen={isOpen}
-        onOpenChange={(open) => {
-          if (!open) closeWaitlistModal();
-        }}
-        size="md"
-        placement="center"
         classNames={{
           base: "border border-gray-200",
           header: "border-b border-gray-100",
           footer: "border-t border-gray-100",
+        }}
+        isOpen={isOpen}
+        placement="center"
+        size="md"
+        onOpenChange={(open) => {
+          if (!open) closeWaitlistModal();
         }}
       >
         <ModalContent>
@@ -103,17 +115,26 @@ export function WaitlistModalProvider({ children }: { children: React.ReactNode 
                 className="text-xl font-bold"
                 style={{ color: BRAND_COLORS.primary.dark }}
               >
-                Join the Waitlist
+                Get Early Access
               </h2>
               <p className="text-sm font-normal text-gray-600">
-                Community, wellness, and travel for DINK couples.
+                One AI co-pilot for community, travel, and wellness—built for
+                adventurers and intentional living. Less juggling. Smarter
+                plans. Real community.
               </p>
             </ModalHeader>
             <ModalBody>
               {success ? (
-                <p className="text-center text-gray-700 py-4">
-                  You&apos;re on the list. Check your email for a welcome message.
-                </p>
+                <div className="text-center text-gray-700 py-4 space-y-2">
+                  <p>
+                    You&apos;re on the list. Check your email for a welcome
+                    message.
+                  </p>
+                  <p className="text-sm">
+                    We&apos;ll email you when early access opens and with
+                    occasional updates.
+                  </p>
+                </div>
               ) : (
                 <div className="flex flex-col gap-4">
                   {error && (
@@ -122,21 +143,21 @@ export function WaitlistModalProvider({ children }: { children: React.ReactNode 
                     </p>
                   )}
                   <Input
-                    label="Email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onValueChange={setEmail}
                     isRequired
                     autoComplete="email"
+                    label="Email"
+                    placeholder="you@example.com"
+                    type="email"
+                    value={email}
+                    onValueChange={setEmail}
                   />
                   <Input
+                    autoComplete="name"
                     label="Name (optional)"
-                    type="text"
                     placeholder="Your name"
+                    type="text"
                     value={name}
                     onValueChange={setName}
-                    autoComplete="name"
                   />
                 </div>
               )}
@@ -144,12 +165,12 @@ export function WaitlistModalProvider({ children }: { children: React.ReactNode 
             <ModalFooter>
               {success ? (
                 <Button
-                  type="button"
-                  onPress={closeWaitlistModal}
                   style={{
                     background: `linear-gradient(135deg, ${BRAND_COLORS.primary.dark} 0%, ${BRAND_COLORS.primary.main} 100%)`,
                     color: "white",
                   }}
+                  type="button"
+                  onPress={closeWaitlistModal}
                 >
                   Done
                 </Button>
@@ -163,15 +184,15 @@ export function WaitlistModalProvider({ children }: { children: React.ReactNode 
                     Cancel
                   </Button>
                   <Button
-                    type="submit"
-                    isLoading={loading}
                     isDisabled={loading}
+                    isLoading={loading}
                     style={{
                       background: `linear-gradient(135deg, ${BRAND_COLORS.primary.dark} 0%, ${BRAND_COLORS.primary.main} 100%)`,
                       color: "white",
                     }}
+                    type="submit"
                   >
-                    Join Waitlist
+                    Get Early Access
                   </Button>
                 </>
               )}
